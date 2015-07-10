@@ -40,4 +40,4 @@
         android:layout_marginLeft="10dp"
         android:src="@drawable/rc_voice_unread"/>
 
-</LinearLayout><!-- From: file:/E:/AndroidCode/MapChat/kit/src/main/res/layout/rc_item_voicemsg.xml -->
+</LinearLayout><!-- From: file:/E:/git/MapChat/MapChat-android/kit/src/main/res/layout/rc_item_voicemsg.xml -->

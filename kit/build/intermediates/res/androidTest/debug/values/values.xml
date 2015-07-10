@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/E:/AndroidCode/MapChat/kit/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/E:/git/MapChat/MapChat-android/kit/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <integer-array name="emoji_code">
             <item>0x1f60a</item>

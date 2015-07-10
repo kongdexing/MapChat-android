@@ -23,4 +23,4 @@
         android:layout_marginLeft="40dp"
         android:id="@+id/name"/>
 </RelativeLayout>
-<!-- From: file:/E:/AndroidCode/MapChat/kit/src/main/res/layout/rc_item_public_service_search.xml -->
+<!-- From: file:/E:/git/MapChat/MapChat-android/kit/src/main/res/layout/rc_item_public_service_search.xml -->

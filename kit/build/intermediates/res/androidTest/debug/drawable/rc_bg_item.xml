@@ -3,4 +3,4 @@
     <item android:state_focused="true" android:drawable="@color/rc_normal_bg"/>
     <item android:state_pressed="true" android:state_enabled="false" android:drawable="@color/rc_normal_bg" />
     <item android:drawable="@android:color/white"/>
-</selector><!-- From: file:/E:/AndroidCode/MapChat/kit/src/main/res/drawable/rc_bg_item.xml --><!-- From: file:/E:/AndroidCode/MapChat/kit/build/intermediates/bundles/debug/res/drawable/rc_bg_item.xml -->
+</selector><!-- From: file:/E:/git/MapChat/MapChat-android/kit/src/main/res/drawable/rc_bg_item.xml --><!-- From: file:/E:/git/MapChat/MapChat-android/kit/build/intermediates/bundles/debug/res/drawable/rc_bg_item.xml -->

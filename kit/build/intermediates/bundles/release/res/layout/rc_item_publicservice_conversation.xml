@@ -60,4 +60,4 @@
         android:src="@drawable/rc_ic_message_block"
         android:visibility="gone"/>
 
-</RelativeLayout><!-- From: file:/E:/AndroidCode/MapChat/kit/src/main/res/layout/rc_item_publicservice_conversation.xml -->
+</RelativeLayout><!-- From: file:/E:/git/MapChat/MapChat-android/kit/src/main/res/layout/rc_item_publicservice_conversation.xml -->

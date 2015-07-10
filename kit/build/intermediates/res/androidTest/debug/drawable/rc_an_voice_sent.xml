@@ -13,4 +13,4 @@
         android:drawable="@drawable/rc_ic_voice_sent_play3"
         android:duration="300"/>
 
-</animation-list><!-- From: file:/E:/AndroidCode/MapChat/kit/src/main/res/drawable/rc_an_voice_sent.xml --><!-- From: file:/E:/AndroidCode/MapChat/kit/build/intermediates/bundles/debug/res/drawable/rc_an_voice_sent.xml -->
+</animation-list><!-- From: file:/E:/git/MapChat/MapChat-android/kit/src/main/res/drawable/rc_an_voice_sent.xml --><!-- From: file:/E:/git/MapChat/MapChat-android/kit/build/intermediates/bundles/debug/res/drawable/rc_an_voice_sent.xml -->

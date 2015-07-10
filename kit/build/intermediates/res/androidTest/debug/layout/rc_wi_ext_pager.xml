@@ -22,4 +22,4 @@
         android:layout_gravity="bottom|center_horizontal"
         app:inactiveType="fill"
         app:radius="6dp" />
-</LinearLayout><!-- From: file:/E:/AndroidCode/MapChat/kit/src/main/res/layout/rc_wi_ext_pager.xml --><!-- From: file:/E:/AndroidCode/MapChat/kit/build/intermediates/bundles/debug/res/layout/rc_wi_ext_pager.xml -->
+</LinearLayout><!-- From: file:/E:/git/MapChat/MapChat-android/kit/src/main/res/layout/rc_wi_ext_pager.xml --><!-- From: file:/E:/git/MapChat/MapChat-android/kit/build/intermediates/bundles/debug/res/layout/rc_wi_ext_pager.xml -->

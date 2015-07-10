@@ -2,4 +2,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/rc_btn_send_hover" android:state_focused="true"/>
     <item android:drawable="@drawable/rc_btn_send_normal"/>
-</selector><!-- From: file:/E:/AndroidCode/MapChat/kit/src/main/res/drawable/rc_btn_send.xml --><!-- From: file:/E:/AndroidCode/MapChat/kit/build/intermediates/bundles/debug/res/drawable/rc_btn_send.xml -->
+</selector><!-- From: file:/E:/git/MapChat/MapChat-android/kit/src/main/res/drawable/rc_btn_send.xml --><!-- From: file:/E:/git/MapChat/MapChat-android/kit/build/intermediates/bundles/debug/res/drawable/rc_btn_send.xml -->

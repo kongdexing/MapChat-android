@@ -20,4 +20,7 @@ public class MapChatHttpService {
         userService.register(email,username,mobile,password,response);
     }
 
+    public void login(String loginname,String password,WebResponse response){
+        userService.login(loginname,password,response);
+    }
 }

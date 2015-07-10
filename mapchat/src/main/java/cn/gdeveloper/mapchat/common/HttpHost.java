@@ -8,7 +8,7 @@ public class HttpHost {
     public static String HOST = "http://192.168.1.119:8083/";
 //    private static String   HOST = "http://webim.demo.rong.io/";
 
-    public final static String DEMO_LOGIN_EMAIL = "email_login";
+    public final static String LOGIN = "UserService/Login";
     public final static String DEMO_FRIENDS = "friends";
     public final static String DEMO_REQ = "UserService/Register";
     public final static String DEMO_UPDATE_PROFILE = "update_profile";

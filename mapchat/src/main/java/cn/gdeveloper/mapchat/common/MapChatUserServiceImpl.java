@@ -59,4 +59,26 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
             }
         });
     }
+
+    @Override
+    public void login(String loginname, String password,final WebResponse response) {
+        final StringBuilder url = new StringBuilder(256) ;
+        url.append(HttpHost.HOST+HttpHost.LOGIN);
+        url.append("/"+loginname+"/"+password);
+
+        httpService.sendHttpGetResponseByteArray(url.toString(), new WebResponse(response) {
+            @Override
+            public void dispatchResponse(Object value) {
+                super.dispatchResponse(value);
+                final Result result = mResult.cloneResult();
+                if (analyseResult(result, value) == CODE_OK) {
+                    sendMessage(MSG_MEMBER_LOGIN_SUCCESS, result);
+                } else {
+                    sendMessage(MSG_MEMBER_LOGIN_FAILED, result);
+                }
+                // dispatch
+                response.dispatchResponse(result);
+            }
+        });
+    }
 }

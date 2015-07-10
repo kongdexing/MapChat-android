@@ -3,4 +3,4 @@
 
     <item android:drawable="@drawable/rc_btn_voice_hover" android:state_pressed="true"></item>
     <item android:drawable="@drawable/rc_btn_voice_normal"></item>
-</selector><!-- From: file:/E:/AndroidCode/MapChat/kit/src/main/res/drawable/rc_btn_voice.xml --><!-- From: file:/E:/AndroidCode/MapChat/kit/build/intermediates/bundles/debug/res/drawable/rc_btn_voice.xml -->
+</selector><!-- From: file:/E:/git/MapChat/MapChat-android/kit/src/main/res/drawable/rc_btn_voice.xml --><!-- From: file:/E:/git/MapChat/MapChat-android/kit/build/intermediates/bundles/debug/res/drawable/rc_btn_voice.xml -->

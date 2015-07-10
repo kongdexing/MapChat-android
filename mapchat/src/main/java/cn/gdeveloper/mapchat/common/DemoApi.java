@@ -54,7 +54,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("email", email));
         nameValuePairs.add(new BasicNameValuePair("password", password));
 
-        ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.POST_METHOD, URI.create(HttpHost.HOST + HttpHost.DEMO_LOGIN_EMAIL), nameValuePairs, callback);
+        ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.POST_METHOD, URI.create(HttpHost.HOST + HttpHost.LOGIN), nameValuePairs, callback);
         AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<User>(User.class), null, null);
         NetworkManager.getInstance().requestAsync(httpRequest);
         return httpRequest;

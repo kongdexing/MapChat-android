@@ -29,6 +29,9 @@ import java.util.List;
 import cn.gdeveloper.mapchat.R;
 import cn.gdeveloper.mapchat.app.DemoContext;
 import cn.gdeveloper.mapchat.app.RongCloudEvent;
+import cn.gdeveloper.mapchat.common.MapChatHttpService;
+import cn.gdeveloper.mapchat.http.MapChatMessageID;
+import cn.gdeveloper.mapchat.http.WebResponse;
 import cn.gdeveloper.mapchat.model.ApiResult;
 import cn.gdeveloper.mapchat.model.Friends;
 import cn.gdeveloper.mapchat.model.Groups;
@@ -166,13 +169,10 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 mImgBackgroud.startAnimation(animation);
             }
         });
-
-
     }
 
     @Override
     protected void initData() {
-
         if (DemoContext.getInstance() != null) {
             String email = DemoContext.getInstance().getSharedPreferences().getString(INTENT_IMAIL, "");
             String password = DemoContext.getInstance().getSharedPreferences().getString(INTENT_PASSWORD, "");
@@ -207,7 +207,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         return super.onTouchEvent(event);
     }
 
-
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         event.getKeyCode();
@@ -222,7 +221,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         return super.dispatchKeyEvent(event);
     }
 
-
     protected void onPause() {
         super.onPause();
         if (mSoftManager == null) {
@@ -234,39 +232,41 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         }
     }
 
-
     @Override
     public boolean handleMessage(Message msg) {
-
-        if (msg.what == HANDLER_LOGIN_FAILURE) {
-
-            if (mDialog != null)
-                mDialog.dismiss();
-            WinToast.toast(LoginActivity.this, R.string.login_failure);
-
-
-        } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
-            if (mDialog != null)
-                mDialog.dismiss();
-            WinToast.toast(LoginActivity.this, R.string.login_success);
-
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-
-        } else if (msg.what == HANDLER_LOGIN_HAS_FOCUS) {
-            mLoginImg.setVisibility(View.GONE);
-            mRegister.setVisibility(View.GONE);
-            mFogotPassWord.setVisibility(View.GONE);
-            mIsShowTitle.setVisibility(View.VISIBLE);
-            mLeftTitle.setText(R.string.app_sign_up);
-            mRightTitle.setText(R.string.app_fogot_password);
-        } else if (msg.what == HANDLER_LOGIN_HAS_NO_FOCUS) {
-            mLoginImg.setVisibility(View.VISIBLE);
-            mRegister.setVisibility(View.VISIBLE);
-            mFogotPassWord.setVisibility(View.VISIBLE);
-            mIsShowTitle.setVisibility(View.GONE);
+        switch (msg.what){
+            case MapChatMessageID.MSG_MEMBER_LOGIN_SUCCESS:
+                hideDialog();
+                break;
+            case MapChatMessageID.MSG_MEMBER_LOGIN_FAILED:
+                hideDialog();
+                WinToast.toast(LoginActivity.this, R.string.login_success);
+                break;
+            case HANDLER_LOGIN_FAILURE:
+                hideDialog();
+                WinToast.toast(LoginActivity.this, R.string.login_failure);
+                break;
+            case HANDLER_LOGIN_SUCCESS:
+                hideDialog();
+                WinToast.toast(LoginActivity.this, R.string.login_success);
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                break;
+            case HANDLER_LOGIN_HAS_FOCUS:
+                mLoginImg.setVisibility(View.GONE);
+                mRegister.setVisibility(View.GONE);
+                mFogotPassWord.setVisibility(View.GONE);
+                mIsShowTitle.setVisibility(View.VISIBLE);
+                mLeftTitle.setText(R.string.app_sign_up);
+                mRightTitle.setText(R.string.app_fogot_password);
+                break;
+            case HANDLER_LOGIN_HAS_NO_FOCUS:
+                mLoginImg.setVisibility(View.VISIBLE);
+                mRegister.setVisibility(View.VISIBLE);
+                mFogotPassWord.setVisibility(View.VISIBLE);
+                mIsShowTitle.setVisibility(View.GONE);
+                break;
         }
-
         return false;
     }
 
@@ -274,7 +274,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.app_sign_in_bt://登录
-
                 String userName = mUserNameEt.getEditableText().toString();
                 String passWord = mPassWordEt.getEditableText().toString();
 
@@ -282,22 +281,16 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     WinToast.toast(this, R.string.login_erro_is_null);
                     return;
                 }
-
-                if (mDialog != null && !mDialog.isShowing()) {
-                    mDialog.show();
-                }
-                //发起登录 http请求 (注：非融云SDK接口，是demo接口)
-
-                if (DemoContext.getInstance() != null) {
-
-//                    String cookie = DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", "DEFAULT");
-//                    if (!TextUtils.isEmpty(cookie)) {
-//                        httpGetTokenSuccess(cookie);
-//                    } else {
-                    loginHttpRequest = DemoContext.getInstance().getDemoApi().login(userName, passWord, this);
-//                    }
-                }
-
+                showDialog();
+                MapChatHttpService.getInstance().login(userName,passWord,new WebResponse(mHandler));
+//                if (DemoContext.getInstance() != null) {
+////                    String cookie = DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", "DEFAULT");
+////                    if (!TextUtils.isEmpty(cookie)) {
+////                        httpGetTokenSuccess(cookie);
+////                    } else {
+//                    loginHttpRequest = DemoContext.getInstance().getDemoApi().login(userName, passWord, this);
+////                    }
+//                }
                 break;
             case R.id.de_left://注册
             case R.id.de_login_register://注册
@@ -317,57 +310,44 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 mess.what = HANDLER_LOGIN_HAS_FOCUS;
                 mHandler.sendMessage(mess);
                 break;
-
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == REQUEST_CODE_REGISTER && resultCode == RESULT_OK) {
             if (data != null) {
                 mUserNameEt.setText(data.getStringExtra(INTENT_IMAIL));
                 mPassWordEt.setText(data.getStringExtra(INTENT_PASSWORD));
             }
         }
-
     }
 
     private void httpLoginSuccess(User user, boolean isFirst) {
-
         if (user.getCode() == 200) {
             Log.e(TAG, "-----get token----");
             getTokenHttpRequest = DemoContext.getInstance().getDemoApi().getToken(this);
         }
-
     }
 
-
     private void httpGetTokenSuccess(String token) {
-
         try {
             /**
              * IMKit SDK调用第二步
-             *
              * 建立与服务器的连接
-             *
              * 详见API
              * http://docs.rongcloud.cn/api/android/imkit/index.html
              */
             Log.e("LoginActivity", "---------onSuccess gettoken----------:" + token);
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
-
                 @Override
                 public void onSuccess(String userId) {
                     Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-
                     getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
-
                     SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
                     edit.putString("DEMO_USERID", userId);
                     edit.apply();
                     RongIM.getInstance().setUserInfoAttachedState(true);
-
                     RongCloudEvent.getInstance().setOtherListener();
                 }
 
@@ -381,14 +361,10 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         //发起获取好友列表的http请求  (注：非融云SDK接口，是demo接口)
         if (DemoContext.getInstance() != null) {
-
-
 //                getFriendsHttpRequest = DemoContext.getInstance().getDemoApi().getNewFriendlist(LoginActivity.this);
             mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
-
         }
 
         if (DemoContext.getInstance() != null) {
@@ -397,19 +373,14 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             editor.putString(INTENT_IMAIL, mUserNameEt.getText().toString());
             editor.apply();
         }
-
-
     }
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
         //登录成功  返回数据
         if (loginHttpRequest.equals(request)) {
-
             if (obj instanceof User) {
-
                 final User user = (User) obj;
-
                 if (user.getCode() == 200) {
                     if (DemoContext.getInstance() != null && user.getResult() != null) {
                         SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
@@ -418,20 +389,14 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                         edit.putString("DEMO_USER_PORTRAIT", user.getResult().getPortrait());
                         edit.apply();
                         Log.e(TAG, "-------login success------");
-
                         httpLoginSuccess(user, true);
                     }
                 } else if (user.getCode() == 103) {
-
-                    if (mDialog != null)
-                        mDialog.dismiss();
-
+                    hideDialog();
                     WinToast.toast(LoginActivity.this, "密码错误");
                 } else if (user.getCode() == 104) {
-
                     if (mDialog != null)
                         mDialog.dismiss();
-
                     WinToast.toast(LoginActivity.this, "账号错误");
                 }
             }
@@ -453,12 +418,10 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         } else if (mGetMyGroupsRequest.equals(request)) {
             if (obj instanceof Groups) {
                 final Groups groups = (Groups) obj;
-
                 if (groups.getCode() == 200) {
                     List<Group> grouplist = new ArrayList<>();
                     if (groups.getResult() != null) {
                         for (int i = 0; i < groups.getResult().size(); i++) {
-
                             String id = groups.getResult().get(i).getId();
                             String name = groups.getResult().get(i).getName();
                             if (groups.getResult().get(i).getPortrait() != null) {
@@ -467,15 +430,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             } else {
                                 grouplist.add(new Group(id, name, null));
                             }
-
-
                         }
                         HashMap<String, Group> groupM = new HashMap<String, Group>();
                         for (int i = 0; i < grouplist.size(); i++) {
                             groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
                             Log.e("login", "------get Group id---------" + groups.getResult().get(i).getId());
                         }
-
                         if (DemoContext.getInstance() != null)
                             DemoContext.getInstance().setGroupMap(groupM);
                     }
@@ -489,7 +449,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 final Friends friends = (Friends) obj;
                 if (friends.getCode() == 200) {
                     ArrayList<UserInfo> friendResults = new ArrayList<UserInfo>();
-
                     for (int i = 0; i < friends.getResult().size(); i++) {
                         UserInfo info = new UserInfo(String.valueOf(friends.getResult().get(i).getId()), friends.getResult().get(i).getUsername(), friends.getResult().get(i).getPortrait() == null ? null : Uri.parse(friends.getResult().get(i).getPortrait()));
                         friendResults.add(info);
@@ -503,13 +462,10 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 }
             }
         }
-
     }
-
 
     @Override
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
-
         if (loginHttpRequest == request) {
             if (mDialog != null)
                 mDialog.dismiss();
@@ -518,7 +474,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 mDialog.dismiss();
         }
     }
-
 
     @Override
     public void onEditTextFocusChange(View v, boolean hasFocus) {
@@ -540,6 +495,18 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         if (mDialog != null) {
             mDialog.dismiss();
             mDialog = null;
+        }
+    }
+
+    private void showDialog(){
+        if (mDialog != null&&!mDialog.isShowing()) {
+            mDialog.show();
+        }
+    }
+
+    private void hideDialog(){
+        if (mDialog != null) {
+            mDialog.dismiss();
         }
     }
 
