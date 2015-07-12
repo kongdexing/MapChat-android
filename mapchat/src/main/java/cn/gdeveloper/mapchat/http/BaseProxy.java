@@ -22,7 +22,7 @@ import cn.gdeveloper.mapchat.model.Result;
  */
 public abstract class BaseProxy {
 
-	protected static boolean DEBUG					= false ;
+	protected static boolean DEBUG					= true ;
 	protected static final int CODE_OK				= 1 ;
 	protected static final int CODE_FAILED			= 2 ;
 	protected static final int CODE_TOKEN_TIMEOUT	= 3 ;
@@ -35,7 +35,6 @@ public abstract class BaseProxy {
 	
 	/** 分析返回值. 如果返回  CODE_OK 成功, 反之失败 */
 	protected final int analyseResult(Result res, Object value){
-		Log.i("MapChatHttp","analyseResult "+value);
 		if(value instanceof byte[]){
 			//
 			byte[] data = (byte[])value ;
@@ -142,7 +141,6 @@ public abstract class BaseProxy {
 	
 	/** debug */
 	protected final void debug(byte[] data){
-		
 		if(!DEBUG || data == null) return ;
 		Log.i("MapChatHttp",new String(data));
 	}

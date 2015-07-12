@@ -2,19 +2,16 @@ package cn.gdeveloper.mapchat.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -23,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import cn.gdeveloper.mapchat.R;
@@ -41,17 +37,14 @@ import cn.gdeveloper.mapchat.ui.LoadingDialog;
 import cn.gdeveloper.mapchat.ui.WinToast;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Group;
-import io.rong.imlib.model.UserInfo;
-import me.add1.exception.BaseException;
 import me.add1.network.AbstractHttpRequest;
 
 /**
  * Created by Bob on 2015/1/30.
  */
-public class LoginActivity extends BaseApiActivity implements View.OnClickListener, Handler.Callback, DeEditTextHolder.OnEditTextFocusChangeListener {
-    private static final String TAG = "LoginActivity";
+public class LoginActivity extends BaseActivity implements View.OnClickListener, Handler.Callback {
 
+    private static final String TAG = "LoginActivity";
     /**
      * 用户账户
      */
@@ -89,10 +82,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
      */
     private ImageView mLoginImg;
     /**
-     * 软键盘的控制
-     */
-    private InputMethodManager mSoftManager;
-    /**
      * 是否展示title
      */
     private RelativeLayout mIsShowTitle;
@@ -108,11 +97,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     private static final int REQUEST_CODE_REGISTER = 200;
     public static final String INTENT_IMAIL = "intent_email";
     public static final String INTENT_PASSWORD = "intent_password";
-    private static final int HANDLER_LOGIN_SUCCESS = 1;
-    private static final int HANDLER_LOGIN_FAILURE = 2;
     private static final int HANDLER_LOGIN_HAS_FOCUS = 3;
     private static final int HANDLER_LOGIN_HAS_NO_FOCUS = 4;
-
 
     private LoadingDialog mDialog;
     private AbstractHttpRequest<User> loginHttpRequest;
@@ -126,6 +112,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     private ImageView mImgBackgroud;
     DeEditTextHolder mEditUserNameEt;
     DeEditTextHolder mEditPassWordEt;
+    private RelativeLayout rl_login_parent;
 
     @Override
     protected int setContentViewResId() {
@@ -136,7 +123,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     protected void initView() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();//隐藏ActionBar
-        mSoftManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         mLoginImg = (ImageView) findViewById(R.id.de_login_logo);
         mUserNameEt = (EditText) findViewById(R.id.app_username_et);
         mPassWordEt = (EditText) findViewById(R.id.app_password_et);
@@ -158,6 +144,21 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         mRightTitle.setOnClickListener(this);
         mHandler = new Handler(this);
         mDialog = new LoadingDialog(this);
+
+        rl_login_parent = (RelativeLayout)findViewById(R.id.rl_login_parent);
+        rl_login_parent.getRootView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int rootHeight = rl_login_parent.getRootView().getHeight();
+                int height  = rl_login_parent.getHeight();
+                int inerval = rootHeight-height;
+                if(inerval>100){
+                    mHandler.sendEmptyMessage(HANDLER_LOGIN_HAS_FOCUS);
+                }else{
+                    mHandler.sendEmptyMessage(HANDLER_LOGIN_HAS_NO_FOCUS);
+                }
+            }
+        });
 
         mEditUserNameEt = new DeEditTextHolder(mUserNameEt, mFrUserNameDelete, null);
         mEditPassWordEt = new DeEditTextHolder(mPassWordEt, mFrPasswordDelete, null);
@@ -188,48 +189,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             public void run() {
                 mUserNameEt.setOnClickListener(LoginActivity.this);
                 mPassWordEt.setOnClickListener(LoginActivity.this);
-                mEditPassWordEt.setmOnEditTextFocusChangeListener(LoginActivity.this);
-                mEditUserNameEt.setmOnEditTextFocusChangeListener(LoginActivity.this);
             }
         }, 200);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
-                mSoftManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                Message mess = Message.obtain();
-                mess.what = HANDLER_LOGIN_HAS_NO_FOCUS;
-                mHandler.sendMessage(mess);
-            }
-        }
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        event.getKeyCode();
-        switch (event.getKeyCode()) {
-            case KeyEvent.KEYCODE_BACK:
-            case KeyEvent.KEYCODE_ESCAPE:
-                Message mess = Message.obtain();
-                mess.what = HANDLER_LOGIN_HAS_NO_FOCUS;
-                mHandler.sendMessage(mess);
-                break;
-        }
-        return super.dispatchKeyEvent(event);
-    }
-
     protected void onPause() {
         super.onPause();
-        if (mSoftManager == null) {
-            mSoftManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        }
-        if (getCurrentFocus() != null) {
-            mSoftManager.hideSoftInputFromWindow(getCurrentFocus()
-                    .getWindowToken(), 0);// 隐藏软键盘
-        }
     }
 
     @Override
@@ -237,20 +202,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         switch (msg.what){
             case MapChatMessageID.MSG_MEMBER_LOGIN_SUCCESS:
                 hideDialog();
+                WinToast.toast(LoginActivity.this, R.string.login_success);
+
                 break;
             case MapChatMessageID.MSG_MEMBER_LOGIN_FAILED:
                 hideDialog();
-                WinToast.toast(LoginActivity.this, R.string.login_success);
-                break;
-            case HANDLER_LOGIN_FAILURE:
-                hideDialog();
                 WinToast.toast(LoginActivity.this, R.string.login_failure);
-                break;
-            case HANDLER_LOGIN_SUCCESS:
-                hideDialog();
-                WinToast.toast(LoginActivity.this, R.string.login_success);
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
                 break;
             case HANDLER_LOGIN_HAS_FOCUS:
                 mLoginImg.setVisibility(View.GONE);
@@ -276,21 +233,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             case R.id.app_sign_in_bt://登录
                 String userName = mUserNameEt.getEditableText().toString();
                 String passWord = mPassWordEt.getEditableText().toString();
-
                 if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(passWord)) {
                     WinToast.toast(this, R.string.login_erro_is_null);
                     return;
                 }
                 showDialog();
                 MapChatHttpService.getInstance().login(userName,passWord,new WebResponse(mHandler));
-//                if (DemoContext.getInstance() != null) {
-////                    String cookie = DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", "DEFAULT");
-////                    if (!TextUtils.isEmpty(cookie)) {
-////                        httpGetTokenSuccess(cookie);
-////                    } else {
-//                    loginHttpRequest = DemoContext.getInstance().getDemoApi().login(userName, passWord, this);
-////                    }
-//                }
                 break;
             case R.id.de_left://注册
             case R.id.de_login_register://注册
@@ -326,7 +274,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     private void httpLoginSuccess(User user, boolean isFirst) {
         if (user.getCode() == 200) {
             Log.e(TAG, "-----get token----");
-            getTokenHttpRequest = DemoContext.getInstance().getDemoApi().getToken(this);
+//            getTokenHttpRequest = DemoContext.getInstance().getDemoApi().getToken(this);
         }
     }
 
@@ -343,7 +291,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 @Override
                 public void onSuccess(String userId) {
                     Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-                    getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
+//                    getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
                     SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
                     edit.putString("DEMO_USERID", userId);
                     edit.apply();
@@ -353,7 +301,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
-                    mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
+//                    mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
                     Log.e("LoginActivity", "---------onError ----------:" + errorCode);
                 }
             });
@@ -364,7 +312,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         //发起获取好友列表的http请求  (注：非融云SDK接口，是demo接口)
         if (DemoContext.getInstance() != null) {
 //                getFriendsHttpRequest = DemoContext.getInstance().getDemoApi().getNewFriendlist(LoginActivity.this);
-            mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
+//            mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
         }
 
         if (DemoContext.getInstance() != null) {
@@ -375,119 +323,94 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         }
     }
 
-    @Override
-    public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-        //登录成功  返回数据
-        if (loginHttpRequest.equals(request)) {
-            if (obj instanceof User) {
-                final User user = (User) obj;
-                if (user.getCode() == 200) {
-                    if (DemoContext.getInstance() != null && user.getResult() != null) {
-                        SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
-                        edit.putString("DEMO_USER_ID", user.getResult().getId());
-                        edit.putString("DEMO_USER_NAME", user.getResult().getUsername());
-                        edit.putString("DEMO_USER_PORTRAIT", user.getResult().getPortrait());
-                        edit.apply();
-                        Log.e(TAG, "-------login success------");
-                        httpLoginSuccess(user, true);
-                    }
-                } else if (user.getCode() == 103) {
-                    hideDialog();
-                    WinToast.toast(LoginActivity.this, "密码错误");
-                } else if (user.getCode() == 104) {
-                    if (mDialog != null)
-                        mDialog.dismiss();
-                    WinToast.toast(LoginActivity.this, "账号错误");
-                }
-            }
-        } else if (getTokenHttpRequest.equals(request)) {
-            if (obj instanceof User) {
-                final User user = (User) obj;
-                if (user.getCode() == 200) {
-                    httpGetTokenSuccess(user.getResult().getToken());
-                    SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
-                    edit.putString("DEMO_TOKEN", user.getResult().getToken());
-                    edit.apply();
-                    Log.e(TAG, "------getTokenHttpRequest -success--" + user.getResult().getToken());
-                } else if (user.getCode() == 110) {
-                    WinToast.toast(LoginActivity.this, user.getMessage());
-                } else if (user.getCode() == 111) {
-                    WinToast.toast(LoginActivity.this, user.getMessage());
-                }
-            }
-        } else if (mGetMyGroupsRequest.equals(request)) {
-            if (obj instanceof Groups) {
-                final Groups groups = (Groups) obj;
-                if (groups.getCode() == 200) {
-                    List<Group> grouplist = new ArrayList<>();
-                    if (groups.getResult() != null) {
-                        for (int i = 0; i < groups.getResult().size(); i++) {
-                            String id = groups.getResult().get(i).getId();
-                            String name = groups.getResult().get(i).getName();
-                            if (groups.getResult().get(i).getPortrait() != null) {
-                                Uri uri = Uri.parse(groups.getResult().get(i).getPortrait());
-                                grouplist.add(new Group(id, name, uri));
-                            } else {
-                                grouplist.add(new Group(id, name, null));
-                            }
-                        }
-                        HashMap<String, Group> groupM = new HashMap<String, Group>();
-                        for (int i = 0; i < grouplist.size(); i++) {
-                            groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
-                            Log.e("login", "------get Group id---------" + groups.getResult().get(i).getId());
-                        }
-                        if (DemoContext.getInstance() != null)
-                            DemoContext.getInstance().setGroupMap(groupM);
-                    }
-                } else {
-//                    WinToast.toast(this, groups.getCode());
-                }
-            }
-        } else if (getUserInfoHttpRequest.equals(request)) {
-            //获取好友列表接口  返回好友数据  (注：非融云SDK接口，是demo接口)
-            if (obj instanceof Friends) {
-                final Friends friends = (Friends) obj;
-                if (friends.getCode() == 200) {
-                    ArrayList<UserInfo> friendResults = new ArrayList<UserInfo>();
-                    for (int i = 0; i < friends.getResult().size(); i++) {
-                        UserInfo info = new UserInfo(String.valueOf(friends.getResult().get(i).getId()), friends.getResult().get(i).getUsername(), friends.getResult().get(i).getPortrait() == null ? null : Uri.parse(friends.getResult().get(i).getPortrait()));
-                        friendResults.add(info);
-                    }
-                    friendResults.add(new UserInfo("10000", "新好友消息", Uri.parse("test")));
-                    friendResults.add(new UserInfo("kefu114", "客服11", Uri.parse("http://jdd.kefu.rongcloud.cn/image/service_80x80.png")));
-                    if (DemoContext.getInstance() != null)
-                        //将数据提供给用户信息提供者
-                        DemoContext.getInstance().setUserInfos(friendResults);
-                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
-        if (loginHttpRequest == request) {
-            if (mDialog != null)
-                mDialog.dismiss();
-        } else if (getTokenHttpRequest == request) {
-            if (mDialog != null)
-                mDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void onEditTextFocusChange(View v, boolean hasFocus) {
-        Message mess = Message.obtain();
-        switch (v.getId()) {
-            case R.id.app_username_et:
-            case R.id.app_password_et:
-                if (hasFocus) {
-                    mess.what = HANDLER_LOGIN_HAS_FOCUS;
-                }
-                mHandler.sendMessage(mess);
-                break;
-        }
-    }
+//    @Override
+//    public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
+//        //登录成功  返回数据
+//        if (loginHttpRequest.equals(request)) {
+//            if (obj instanceof User) {
+//                final User user = (User) obj;
+//                if (user.getCode() == 200) {
+//                    if (DemoContext.getInstance() != null && user.getResult() != null) {
+//                        SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+//                        edit.putString("DEMO_USER_ID", user.getResult().getId());
+//                        edit.putString("DEMO_USER_NAME", user.getResult().getUsername());
+//                        edit.putString("DEMO_USER_PORTRAIT", user.getResult().getPortrait());
+//                        edit.apply();
+//                        Log.e(TAG, "-------login success------");
+//                        httpLoginSuccess(user, true);
+//                    }
+//                } else if (user.getCode() == 103) {
+//                    hideDialog();
+//                    WinToast.toast(LoginActivity.this, "密码错误");
+//                } else if (user.getCode() == 104) {
+//                    if (mDialog != null)
+//                        mDialog.dismiss();
+//                    WinToast.toast(LoginActivity.this, "账号错误");
+//                }
+//            }
+//        } else if (getTokenHttpRequest.equals(request)) {
+//            if (obj instanceof User) {
+//                final User user = (User) obj;
+//                if (user.getCode() == 200) {
+//                    httpGetTokenSuccess(user.getResult().getToken());
+//                    SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+//                    edit.putString("DEMO_TOKEN", user.getResult().getToken());
+//                    edit.apply();
+//                    Log.e(TAG, "------getTokenHttpRequest -success--" + user.getResult().getToken());
+//                } else if (user.getCode() == 110) {
+//                    WinToast.toast(LoginActivity.this, user.getMessage());
+//                } else if (user.getCode() == 111) {
+//                    WinToast.toast(LoginActivity.this, user.getMessage());
+//                }
+//            }
+//        } else if (mGetMyGroupsRequest.equals(request)) {
+//            if (obj instanceof Groups) {
+//                final Groups groups = (Groups) obj;
+//                if (groups.getCode() == 200) {
+//                    List<Group> grouplist = new ArrayList<>();
+//                    if (groups.getResult() != null) {
+//                        for (int i = 0; i < groups.getResult().size(); i++) {
+//                            String id = groups.getResult().get(i).getId();
+//                            String name = groups.getResult().get(i).getName();
+//                            if (groups.getResult().get(i).getPortrait() != null) {
+//                                Uri uri = Uri.parse(groups.getResult().get(i).getPortrait());
+//                                grouplist.add(new Group(id, name, uri));
+//                            } else {
+//                                grouplist.add(new Group(id, name, null));
+//                            }
+//                        }
+//                        HashMap<String, Group> groupM = new HashMap<String, Group>();
+//                        for (int i = 0; i < grouplist.size(); i++) {
+//                            groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
+//                            Log.e("login", "------get Group id---------" + groups.getResult().get(i).getId());
+//                        }
+//                        if (DemoContext.getInstance() != null)
+//                            DemoContext.getInstance().setGroupMap(groupM);
+//                    }
+//                } else {
+////                    WinToast.toast(this, groups.getCode());
+//                }
+//            }
+//        } else if (getUserInfoHttpRequest.equals(request)) {
+//            //获取好友列表接口  返回好友数据  (注：非融云SDK接口，是demo接口)
+//            if (obj instanceof Friends) {
+//                final Friends friends = (Friends) obj;
+//                if (friends.getCode() == 200) {
+//                    ArrayList<UserInfo> friendResults = new ArrayList<UserInfo>();
+//                    for (int i = 0; i < friends.getResult().size(); i++) {
+//                        UserInfo info = new UserInfo(String.valueOf(friends.getResult().get(i).getId()), friends.getResult().get(i).getUsername(), friends.getResult().get(i).getPortrait() == null ? null : Uri.parse(friends.getResult().get(i).getPortrait()));
+//                        friendResults.add(info);
+//                    }
+//                    friendResults.add(new UserInfo("10000", "新好友消息", Uri.parse("test")));
+//                    friendResults.add(new UserInfo("kefu114", "客服11", Uri.parse("http://jdd.kefu.rongcloud.cn/image/service_80x80.png")));
+//                    if (DemoContext.getInstance() != null)
+//                        //将数据提供给用户信息提供者
+//                        DemoContext.getInstance().setUserInfos(friendResults);
+////                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+//                }
+//            }
+//        }
+//    }
 
     @Override
     protected void onStop() {

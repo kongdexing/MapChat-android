@@ -1,20 +1,13 @@
 package cn.gdeveloper.mapchat.activity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -23,12 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import cn.gdeveloper.mapchat.app.DemoContext;
 import cn.gdeveloper.mapchat.R;
 import cn.gdeveloper.mapchat.common.MapChatHttpService;
 import cn.gdeveloper.mapchat.http.MapChatMessageID;
@@ -38,15 +25,12 @@ import cn.gdeveloper.mapchat.ui.DeEditTextHolder;
 import cn.gdeveloper.mapchat.ui.LoadingDialog;
 import cn.gdeveloper.mapchat.ui.WinToast;
 import cn.gdeveloper.mapchat.utils.CommonUtils;
-import cn.gdeveloper.mapchat.utils.NetUtils;
-import me.add1.exception.BaseException;
-import me.add1.exception.InternalException;
 import me.add1.network.AbstractHttpRequest;
 
 /**
  * Created by Bob on 2015/2/6.
  */
-public class RegisterActivity extends BaseApiActivity implements View.OnClickListener, DeEditTextHolder.OnEditTextFocusChangeListener, Handler.Callback {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, Handler.Callback {
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private static final int HANDLER_REGIST_HAS_NO_FOCUS = 1;
@@ -68,10 +52,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
     DeEditTextHolder mEditPhoneEt;
     DeEditTextHolder mEditPassWordEt;
     DeEditTextHolder mEditNickNameEt;
-    /**
-     * 软键盘的控制
-     */
-    private InputMethodManager mSoftManager;
     private AbstractHttpRequest<Status> httpRequest;
     /**
      * 是否展示title
@@ -79,6 +59,7 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
     private LinearLayout mIsShowTitle;
     private Handler mHandler;
     private LoadingDialog mDialog;
+    private RelativeLayout rl_root_parent;
 
     @Override
     protected int setContentViewResId() {
@@ -103,7 +84,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
         mNickNameDeleteFramelayout = (FrameLayout) findViewById(R.id.et_nickname_delete);
         mDialog = new LoadingDialog(this);
         mHandler = new Handler(this);
-        mSoftManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -111,23 +91,21 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
                 mImgBackgroud.startAnimation(animation);
             }
         });
-    }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        event.getKeyCode();
-        switch (event.getKeyCode()){
-            case KeyEvent.KEYCODE_BACK:
-            case KeyEvent.KEYCODE_ESCAPE:
-                Message mess = Message.obtain();
-                mess.what = HANDLER_REGIST_HAS_NO_FOCUS;
-                mHandler.sendMessage(mess);
-                break;
-            default:
-                Log.i(TAG,"getKeyCode : "+event.getKeyCode());
-                break;
-        }
-        return super.dispatchKeyEvent(event);
+        rl_root_parent = (RelativeLayout)findViewById(R.id.rl_root_parent);
+        rl_root_parent.getRootView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int rootHeight = rl_root_parent.getRootView().getHeight();
+                int height = rl_root_parent.getHeight();
+                int inerval = rootHeight - height;
+                if (inerval > 100) {
+                    mHandler.sendEmptyMessage(HANDLER_REGIST_HAS_FOCUS);
+                } else {
+                    mHandler.sendEmptyMessage(HANDLER_REGIST_HAS_NO_FOCUS);
+                }
+            }
+        });
     }
 
     @Override
@@ -139,32 +117,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
         mEditNickNameEt = new DeEditTextHolder(mRegistNickName, mNickNameDeleteFramelayout, null);
         mEditPassWordEt = new DeEditTextHolder(mRegistPassword, mPasswordDeleteFramelayout, null);
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mRegistEmail.setOnClickListener(RegisterActivity.this);
-                mRegistPhone.setOnClickListener(RegisterActivity.this);
-                mRegistNickName.setOnClickListener(RegisterActivity.this);
-                mRegistPassword.setOnClickListener(RegisterActivity.this);
-                mEditUserNameEt.setmOnEditTextFocusChangeListener(RegisterActivity.this);
-                mEditPhoneEt.setmOnEditTextFocusChangeListener(RegisterActivity.this);
-                mEditNickNameEt.setmOnEditTextFocusChangeListener(RegisterActivity.this);
-                mEditPassWordEt.setmOnEditTextFocusChangeListener(RegisterActivity.this);
-            }
-        }, 200);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
-                mSoftManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                Message mess = Message.obtain();
-                mess.what = HANDLER_REGIST_HAS_NO_FOCUS;
-                mHandler.sendMessage(mess);
-            }
-        }
-        return super.onTouchEvent(event);
     }
 
     @Override
@@ -217,13 +169,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
             case R.id.register_user_agreement://用户协议
 
                 break;
-            case R.id.et_register_mail:
-            case R.id.et_register_password:
-            case R.id.et_register_nickname:
-                Message mess = Message.obtain();
-                mess.what = HANDLER_REGIST_HAS_FOCUS;
-                mHandler.sendMessage(mess);
-                break;
             case R.id.de_left://登录
                 finish();
                 break;
@@ -235,39 +180,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
 
     protected void onPause() {
         super.onPause();
-        if (mSoftManager == null) {
-            mSoftManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        }
-        if (getCurrentFocus() != null) {
-            mSoftManager.hideSoftInputFromWindow(getCurrentFocus()
-                    .getWindowToken(), 0);// 隐藏软键盘
-        }
     }
 
-    @Override
-    public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-    }
-
-    @Override
-    public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
-        Log.d(TAG + "--onCallApiFailure:", "onCallApiFailure");
-    }
-
-    @Override
-    public void onEditTextFocusChange(View v, boolean hasFocus) {
-
-        switch (v.getId()) {
-
-            case R.id.et_register_mail:
-            case R.id.et_register_phone:
-            case R.id.et_register_password:
-            case R.id.et_register_nickname:
-                Message mess = Message.obtain();
-                if (hasFocus) {
-                    mess.what = HANDLER_REGIST_HAS_FOCUS;
-                }
-                mHandler.sendMessage(mess);
-                break;
-        }
-    }
 }
