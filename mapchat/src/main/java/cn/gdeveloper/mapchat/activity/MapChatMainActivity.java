@@ -3,6 +3,7 @@ package cn.gdeveloper.mapchat.activity;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -107,7 +108,7 @@ public class MapChatMainActivity extends FragmentActivity implements LocationSou
         rlIcon1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(MapChatMainActivity.this, AddFriendsActivity.class));
             }
         });
 
