@@ -22,7 +22,7 @@ public class MapChatApp extends Application {
          */
         RongCloudEvent.init(this);
 
-        DemoContext.init(this);
+        MapChatContext.init(this);
 
 //        DeDateContext.init(this);
 

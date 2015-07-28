@@ -89,12 +89,14 @@
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
-    <orderEntry type="library" exported="" name="TencentMapSDK_Raster_v1.0.6" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="TencentLocationSDK_v4.0_r139747" level="project" />
+    <orderEntry type="library" exported="" name="AMap_Services_V2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Android_2DMapApi_V2.5.0" level="project" />
     <orderEntry type="library" exported="" name="umeng-analytics-v5.2.4" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="Android_Location_V1.3.2" level="project" />
     <orderEntry type="module" module-name="kit" exported="" />
+    <orderEntry type="module" module-name="library" exported="" />
   </component>
 </module>

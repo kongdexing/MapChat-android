@@ -5,13 +5,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
-
-//import io.rong.app.activity.DePersonalDetailActivity;
-//import io.rong.app.activity.MainActivity;
-//import io.rong.app.activity.PhotoActivity;
-//import io.rong.app.activity.SOSOLocationActivity;
-//import io.rong.app.message.DeAgreedFriendRequestMessage;
 import cn.gdeveloper.mapchat.activity.MainActivity;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
@@ -24,10 +17,15 @@ import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
 import io.rong.message.ImageMessage;
 import io.rong.message.InformationNotificationMessage;
-import io.rong.message.LocationMessage;
 import io.rong.message.RichContentMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
+
+//import io.rong.app.activity.DePersonalDetailActivity;
+//import io.rong.app.activity.MainActivity;
+//import io.rong.app.activity.PhotoActivity;
+//import io.rong.app.activity.SOSOLocationActivity;
+//import io.rong.app.message.DeAgreedFriendRequestMessage;
 
 /**
  * 融云SDK事件监听处理。
@@ -167,12 +165,12 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
 //    private void reciverAgreeSuccess(DeAgreedFriendRequestMessage deAgreedFriendRequestMessage) {
 //        ArrayList<UserInfo> friendreslist = new ArrayList<UserInfo>();
-//        if (DemoContext.getInstance() != null) {
-//            friendreslist = DemoContext.getInstance().getFriends();
+//        if (MapChatContext.getInstance() != null) {
+//            friendreslist = MapChatContext.getInstance().getFriends();
 //            //接收到的这条消息的消息体里面有 userinfo，直接调用就可以
 //            friendreslist.add(deAgreedFriendRequestMessage.getUserInfo());
 //            //将此userinfo 添加到好友列表
-//            DemoContext.getInstance().setFriends(friendreslist);
+//            MapChatContext.getInstance().setFriends(friendreslist);
 //        }
 //        //发送广播，提示更新 UI
 //        Intent in = new Intent();
@@ -220,7 +218,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
-        return DemoContext.getInstance().getUserInfoById(userId);
+        return MapChatContext.getInstance().getUserInfoById(userId);
 
     }
 
@@ -236,10 +234,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
-        if (DemoContext.getInstance().getGroupMap() == null)
+        if (MapChatContext.getInstance().getGroupMap() == null)
             return null;
 
-        return DemoContext.getInstance().getGroupMap().get(groupId);
+        return MapChatContext.getInstance().getGroupMap().get(groupId);
 //        return null;
     }
 
@@ -347,7 +345,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
-//        DemoContext.getInstance().setLastLocationCallback(callback);
+//        MapChatContext.getInstance().setLastLocationCallback(callback);
 //        context.startActivity(new Intent(context, SOSOLocationActivity.class));//SOSO地图
     }
 }

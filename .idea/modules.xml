@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MapChat-android.iml" filepath="$PROJECT_DIR$/MapChat-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/kit/kit.iml" filepath="$PROJECT_DIR$/kit/kit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/mapchat/mapchat.iml" filepath="$PROJECT_DIR$/mapchat/mapchat.iml" />
     </modules>
   </component>

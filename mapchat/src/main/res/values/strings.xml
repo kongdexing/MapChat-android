@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MapChat</string>
+    <string name="app_name">碰面</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -125,4 +125,7 @@
     <string name="de_actionbar_set_conversation">"聊天设置"</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_logo">LogoActivity</string>
+    <string name="title_activity_map_chat_main">MapChatMainActivity</string>
+    <string name="title_activity_main_fragment">MainFragmentActivity</string>
+    <string name="title_activity_add_friends">AddFriendsActivity</string>
 </resources>

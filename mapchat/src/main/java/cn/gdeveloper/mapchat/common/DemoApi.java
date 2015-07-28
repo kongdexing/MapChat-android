@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.gdeveloper.mapchat.app.DemoContext;
+import cn.gdeveloper.mapchat.app.MapChatContext;
 import cn.gdeveloper.mapchat.model.Friends;
 import cn.gdeveloper.mapchat.model.Groups;
 import cn.gdeveloper.mapchat.model.Status;
@@ -335,8 +335,8 @@ public class DemoApi extends BaseApi {
 
         @Override
         public void signRequest(HttpRequest httpRequest, List<NameValuePair> nameValuePairs) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-            if (DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null) != null) {
-                httpRequest.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
+            if (MapChatContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null) != null) {
+                httpRequest.addHeader("cookie", MapChatContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
             }
 
         }

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.gdeveloper.mapchat.R;
-import cn.gdeveloper.mapchat.app.DemoContext;
+import cn.gdeveloper.mapchat.app.MapChatContext;
 import cn.gdeveloper.mapchat.app.RongCloudEvent;
 import cn.gdeveloper.mapchat.common.MapChatHttpService;
 import cn.gdeveloper.mapchat.http.MapChatMessageID;
@@ -35,6 +35,7 @@ import cn.gdeveloper.mapchat.model.User;
 import cn.gdeveloper.mapchat.ui.DeEditTextHolder;
 import cn.gdeveloper.mapchat.ui.LoadingDialog;
 import cn.gdeveloper.mapchat.ui.WinToast;
+import cn.gdeveloper.mapchat.utils.SharedPreferencesUtil;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import me.add1.network.AbstractHttpRequest;
@@ -93,10 +94,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
      * 右侧title
      */
     private TextView mRightTitle;
-
     private static final int REQUEST_CODE_REGISTER = 200;
-    public static final String INTENT_IMAIL = "intent_email";
-    public static final String INTENT_PASSWORD = "intent_password";
     private static final int HANDLER_LOGIN_HAS_FOCUS = 3;
     private static final int HANDLER_LOGIN_HAS_NO_FOCUS = 4;
 
@@ -174,9 +172,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initData() {
-        if (DemoContext.getInstance() != null) {
-            String email = DemoContext.getInstance().getSharedPreferences().getString(INTENT_IMAIL, "");
-            String password = DemoContext.getInstance().getSharedPreferences().getString(INTENT_PASSWORD, "");
+        if (MapChatContext.getInstance() != null) {
+            String email = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_EMAIL, "");
+            String password = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_PASSWORD, "");
             mUserNameEt.setText(email);
             mPassWordEt.setText(password);
         }
@@ -203,7 +201,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case MapChatMessageID.MSG_MEMBER_LOGIN_SUCCESS:
                 hideDialog();
                 WinToast.toast(LoginActivity.this, R.string.login_success);
+                RongIM.getInstance().setUserInfoAttachedState(true);
+//                RongCloudEvent.getInstance().setOtherListener();
 
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
                 break;
             case MapChatMessageID.MSG_MEMBER_LOGIN_FAILED:
                 hideDialog();
@@ -265,16 +267,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_REGISTER && resultCode == RESULT_OK) {
             if (data != null) {
-                mUserNameEt.setText(data.getStringExtra(INTENT_IMAIL));
-                mPassWordEt.setText(data.getStringExtra(INTENT_PASSWORD));
+                mUserNameEt.setText(data.getStringExtra(SharedPreferencesUtil.USER_EMAIL));
+                mPassWordEt.setText(data.getStringExtra(SharedPreferencesUtil.USER_PASSWORD));
             }
-        }
-    }
-
-    private void httpLoginSuccess(User user, boolean isFirst) {
-        if (user.getCode() == 200) {
-            Log.e(TAG, "-----get token----");
-//            getTokenHttpRequest = DemoContext.getInstance().getDemoApi().getToken(this);
         }
     }
 
@@ -291,9 +286,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 @Override
                 public void onSuccess(String userId) {
                     Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-//                    getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
-                    SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
-                    edit.putString("DEMO_USERID", userId);
+//                    getUserInfoHttpRequest = MapChatContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
+                    SharedPreferences.Editor edit = MapChatContext.getInstance().getSharedPreferences().edit();
+                    edit.putString(SharedPreferencesUtil.USER_ID, userId);
                     edit.apply();
                     RongIM.getInstance().setUserInfoAttachedState(true);
                     RongCloudEvent.getInstance().setOtherListener();
@@ -310,16 +305,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             e.printStackTrace();
         }
         //发起获取好友列表的http请求  (注：非融云SDK接口，是demo接口)
-        if (DemoContext.getInstance() != null) {
-//                getFriendsHttpRequest = DemoContext.getInstance().getDemoApi().getNewFriendlist(LoginActivity.this);
-//            mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
-        }
-
-        if (DemoContext.getInstance() != null) {
-            SharedPreferences.Editor editor = DemoContext.getInstance().getSharedPreferences().edit();
-            editor.putString(INTENT_PASSWORD, mPassWordEt.getText().toString());
-            editor.putString(INTENT_IMAIL, mUserNameEt.getText().toString());
-            editor.apply();
+        if (MapChatContext.getInstance() != null) {
+//                getFriendsHttpRequest = MapChatContext.getInstance().getDemoApi().getNewFriendlist(LoginActivity.this);
+//            mGetMyGroupsRequest = MapChatContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
         }
     }
 
@@ -330,8 +318,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //            if (obj instanceof User) {
 //                final User user = (User) obj;
 //                if (user.getCode() == 200) {
-//                    if (DemoContext.getInstance() != null && user.getResult() != null) {
-//                        SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+//                    if (MapChatContext.getInstance() != null && user.getResult() != null) {
+//                        SharedPreferences.Editor edit = MapChatContext.getInstance().getSharedPreferences().edit();
 //                        edit.putString("DEMO_USER_ID", user.getResult().getId());
 //                        edit.putString("DEMO_USER_NAME", user.getResult().getUsername());
 //                        edit.putString("DEMO_USER_PORTRAIT", user.getResult().getPortrait());
@@ -353,7 +341,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //                final User user = (User) obj;
 //                if (user.getCode() == 200) {
 //                    httpGetTokenSuccess(user.getResult().getToken());
-//                    SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+//                    SharedPreferences.Editor edit = MapChatContext.getInstance().getSharedPreferences().edit();
 //                    edit.putString("DEMO_TOKEN", user.getResult().getToken());
 //                    edit.apply();
 //                    Log.e(TAG, "------getTokenHttpRequest -success--" + user.getResult().getToken());
@@ -384,8 +372,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //                            groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
 //                            Log.e("login", "------get Group id---------" + groups.getResult().get(i).getId());
 //                        }
-//                        if (DemoContext.getInstance() != null)
-//                            DemoContext.getInstance().setGroupMap(groupM);
+//                        if (MapChatContext.getInstance() != null)
+//                            MapChatContext.getInstance().setGroupMap(groupM);
 //                    }
 //                } else {
 ////                    WinToast.toast(this, groups.getCode());
@@ -403,9 +391,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //                    }
 //                    friendResults.add(new UserInfo("10000", "新好友消息", Uri.parse("test")));
 //                    friendResults.add(new UserInfo("kefu114", "客服11", Uri.parse("http://jdd.kefu.rongcloud.cn/image/service_80x80.png")));
-//                    if (DemoContext.getInstance() != null)
+//                    if (MapChatContext.getInstance() != null)
 //                        //将数据提供给用户信息提供者
-//                        DemoContext.getInstance().setUserInfos(friendResults);
+//                        MapChatContext.getInstance().setUserInfos(friendResults);
 ////                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
 //                }
 //            }

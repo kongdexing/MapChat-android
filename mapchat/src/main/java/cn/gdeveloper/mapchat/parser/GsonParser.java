@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 
-import cn.gdeveloper.mapchat.app.DemoContext;
+import cn.gdeveloper.mapchat.app.MapChatContext;
 import me.add1.exception.InternalException;
 import me.add1.exception.ParseException;
 
@@ -41,7 +41,7 @@ public class GsonParser<T extends Serializable> extends JsonObjectParser<T> {
             for (int i = 0; i < headers.length; i++) {
                 if (headers[i].getName().equals("Set-Cookie")) {
                     String[] cookievalues = headers[i].getValue().split(";");
-                    SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+                    SharedPreferences.Editor edit = MapChatContext.getInstance().getSharedPreferences().edit();
                     edit.putString("DEMO_COOKIE", cookievalues[0]);
                     edit.apply();
                 }

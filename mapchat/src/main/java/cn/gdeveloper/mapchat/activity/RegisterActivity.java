@@ -160,8 +160,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 MapChatHttpService.getInstance().register(email,nickName,phone,password,new WebResponse(mHandler));
-//                if (DemoContext.getInstance() != null)
-//                    httpRequest = DemoContext.getInstance().getDemoApi().register(email, nickName, phone, password, this);
+//                if (MapChatContext.getInstance() != null)
+//                    httpRequest = MapChatContext.getInstance().getDemoApi().register(email, nickName, phone, password, this);
                 if (mDialog != null && !mDialog.isShowing()) {
                     mDialog.show();
                 }

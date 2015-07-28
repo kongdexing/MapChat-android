@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import cn.gdeveloper.mapchat.app.DemoContext;
+import cn.gdeveloper.mapchat.app.MapChatContext;
 
 
 public class NetUtils {
@@ -40,8 +40,8 @@ public class NetUtils {
     public static String sendGetRequest(String requestUrl) {
         HttpGet httpGet = new HttpGet( requestUrl);
 //        HttpGet httpGet = new HttpGet(BASE_URL + requestUrl);
-        if (DemoContext.getInstance().getSharedPreferences() != null) {
-            httpGet.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
+        if (MapChatContext.getInstance().getSharedPreferences() != null) {
+            httpGet.addHeader("cookie", MapChatContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
         }else{
             Log.e("", "0313----yb DEMO_COOKIE  null ----:");
         }
@@ -49,7 +49,7 @@ public class NetUtils {
             HttpResponse response = httpClient.execute(httpGet);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity entity = response.getEntity();
-//                response.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
+//                response.addHeader("cookie", MapChatContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
                 getCookie(httpClient);
 //                return entity.getContent();  //当需要返回为输入流InputStream时的返回值
                 return EntityUtils.toString(entity); // 当返回的类型为Json数据时，调用此返回方法
@@ -70,9 +70,9 @@ public class NetUtils {
     public static String sendPostRequest(String requestUrl, Map<String, String> params) {
 
         HttpPost httpPost = new HttpPost(BASE_URL + requestUrl);
-        if (DemoContext.getInstance().getSharedPreferences() != null) {
+        if (MapChatContext.getInstance().getSharedPreferences() != null) {
 //            httpGet.addHeader("cookie","PHPAUTH=zEL1jDQc2rkuZHxN65gjEGWvWBWauB8pVMWty9fGioc%3D");
-            httpPost.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
+            httpPost.addHeader("cookie", MapChatContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
         }
         try {
             if (params != null && params.size() > 0) {
@@ -85,7 +85,7 @@ public class NetUtils {
             HttpResponse response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity entity = response.getEntity();
-//                response.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
+//                response.addHeader("cookie", MapChatContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
 
                 getCookie(httpClient);
 //                return entity.getContent();  //当需要返回为输入流InputStream时的返回值
@@ -116,7 +116,7 @@ public class NetUtils {
                 sb.append(cookieValue + ";");
             }
         }
-        SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+        SharedPreferences.Editor edit = MapChatContext.getInstance().getSharedPreferences().edit();
         edit.putString("DEMO_COOKIE", sb.toString());
         edit.apply();
     }

@@ -1,6 +1,11 @@
 package cn.gdeveloper.mapchat.model;
 
+import android.content.SharedPreferences;
+
 import java.io.Serializable;
+
+import cn.gdeveloper.mapchat.app.MapChatContext;
+import cn.gdeveloper.mapchat.utils.SharedPreferencesUtil;
 
 /**
  * Created by Bob on 2015/3/4.
@@ -23,10 +28,6 @@ public class ApiResult implements Serializable {
      *状态
      */
     private int status;
-    /**
-     *token值
-     */
-    private String token;
     /**
      *群组名称
      */
@@ -104,29 +105,20 @@ public class ApiResult implements Serializable {
         this.name = name;
     }
 
-
     public String getUsername() {
-
         return username;
-
     }
 
     public void setUsername(String username) {
-
         this.username = username;
-
     }
 
     public String getPortrait() {
-
         return portrait;
-
     }
 
     public void setPortrait(String portrait) {
-
         this.portrait = portrait;
-
     }
 
     public String getId() {
@@ -145,12 +137,4 @@ public class ApiResult implements Serializable {
         this.status = status;
     }
 
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

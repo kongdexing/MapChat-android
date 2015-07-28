@@ -32,36 +32,47 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".activity.LogoActivity"
             android:label="@string/title_activity_logo" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MapChatMainActivity"
+            android:label="@string/title_activity_map_chat_main" />
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="cpj2xarlj5k2n" />
 
         <activity
-            android:name=".activity.RegisterActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" >
+            android:name=".activity.MainFragmentActivity"
+            android:label="@string/title_activity_main_fragment" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="018aa6cb81a515c1fcd9d86acc8968af" />
+
+        <activity
+            android:name=".activity.AddFriendsActivity"
+            android:label="@string/title_activity_add_friends" >
         </activity>
     </application>
 
