@@ -63,8 +63,7 @@ public class SubActionButton extends FrameLayout {
             final int margin = getResources().getDimensionPixelSize(R.dimen.sub_action_button_content_margin);
             params.setMargins(margin, margin, margin, margin);
         }
-
-        contentView.setClickable(false);
+        contentView.setClickable(true);
         this.addView(contentView, params);
     }
 

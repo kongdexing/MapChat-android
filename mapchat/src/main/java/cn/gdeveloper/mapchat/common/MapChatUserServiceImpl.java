@@ -2,13 +2,17 @@ package cn.gdeveloper.mapchat.common;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import cn.gdeveloper.mapchat.http.BaseProxy;
 import cn.gdeveloper.mapchat.http.ErrorText;
 import cn.gdeveloper.mapchat.http.HttpVisitor;
 import cn.gdeveloper.mapchat.http.MapChatMessageID;
 import cn.gdeveloper.mapchat.http.WebResponse;
+import cn.gdeveloper.mapchat.model.Friend;
 import cn.gdeveloper.mapchat.model.Result;
 import cn.gdeveloper.mapchat.model.User;
 
@@ -43,7 +47,7 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
         }
 
         final StringBuilder url = new StringBuilder(256);
-        url.append(HttpHost.HOST + HttpHost.DEMO_REQ);
+        url.append(HttpHost.HOST + HttpHost.REGISTER);
         Log.i(TAG, "url " + url + "  param  " + param);
         httpService.sendHttpPostResponseByteArray(url.toString(), param, new WebResponse(response) {
             @Override
@@ -90,6 +94,49 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
                 }
                 // dispatch
                 response.dispatchResponse(result);
+            }
+        });
+    }
+
+    @Override
+    public void search(String searchKey, final WebResponse response) {
+        final StringBuilder url = new StringBuilder(256);
+        url.append(HttpHost.HOST + HttpHost.SEARCH);
+        url.append("/" + searchKey);
+
+        httpService.sendHttpGetResponseByteArray(url.toString(), new WebResponse(response) {
+            @Override
+            public void dispatchResponse(Object value) {
+                super.dispatchResponse(value);
+                final Result result = mResult.cloneResult();
+                if (analyseJSON(result, value) == CODE_OK) {
+                    try {
+                        JSONObject jsonVal = new JSONObject(result.getValue());
+                        String total = jsonVal.getString("total");
+                        JSONArray jsonArray = jsonVal.getJSONArray("rows");
+                        int size = jsonArray.length();
+                        if (size == 0) {
+                            response.sendMessage(MSG_SEARCH_SUCCESS, ErrorText.ERROR_SEARCH_EMPTY);
+                            return;
+                        }
+                        ArrayList<Friend> list_friend = new ArrayList<Friend>();
+                        for (int i = 0; i < size; i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            Friend friend = new Friend();
+                            friend.setID(obj.getString("ID"));
+                            friend.setUserName(obj.getString("UserName"));
+                            friend.setPortrait(obj.getString("ImageUrl"));
+                            friend.setBirthday(obj.getString("Birthday"));
+                            friend.setSex(obj.getString("Sex"));
+                            list_friend.add(friend);
+                        }
+                        response.sendMessage(MSG_SEARCH_SUCCESS, list_friend);
+                    } catch (Exception ex) {
+                        response.sendMessage(MSG_SEARCH_FAILED, ErrorText.ERROR_PARSER_JSON);
+                    }
+                } else {
+                    response.sendMessage(MSG_SEARCH_FAILED, result.getValue());
+                }
             }
         });
     }

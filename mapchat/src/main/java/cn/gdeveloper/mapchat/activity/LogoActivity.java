@@ -30,8 +30,7 @@ public class LogoActivity extends BaseActivity {
     @Override
     protected void initView() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
+        actionBar.hide();//隐藏ActionBar
         mImgBackgroud = (ImageView)findViewById(R.id.img_backgroud);
         Animation animation = AnimationUtils.loadAnimation(LogoActivity.this, R.anim.translate_anim);
         mImgBackgroud.startAnimation(animation);

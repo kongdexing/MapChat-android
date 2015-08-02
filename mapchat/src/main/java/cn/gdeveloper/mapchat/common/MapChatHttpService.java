@@ -23,4 +23,8 @@ public class MapChatHttpService {
     public void login(String loginname,String password,WebResponse response){
         userService.login(loginname,password,response);
     }
+
+    public void search(String searchKey,WebResponse response){
+        userService.search(searchKey,response);
+    }
 }

@@ -45,7 +45,6 @@ public class DeEditTextHolder implements View.OnClickListener,View.OnFocusChange
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 if (TextUtils.isEmpty(s)) {
                     mDeleteView.setVisibility(View.GONE);
                 } else {

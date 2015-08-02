@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +16,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -96,7 +94,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private boolean hasNewFriends = false;
     private Menu mMenu;
-    private ReceiveMessageBroadcastReciver mBroadcastReciver;
+    private ReceiveMessageBroadcastReceiver mBroadcastReciver;
     private LoadingDialog mDialog;
     //    private AbstractHttpRequest<Friends> getUserInfoHttpRequest;
     private AbstractHttpRequest<Friends> getFriendsHttpRequest;
@@ -174,12 +172,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_DMEO_RECEIVE_MESSAGE);
         if (mBroadcastReciver == null) {
-            mBroadcastReciver = new ReceiveMessageBroadcastReciver();
+            mBroadcastReciver = new ReceiveMessageBroadcastReceiver();
         }
         this.registerReceiver(mBroadcastReciver, intentFilter);
     }
 
-    private class ReceiveMessageBroadcastReciver extends BroadcastReceiver {
+    private class ReceiveMessageBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

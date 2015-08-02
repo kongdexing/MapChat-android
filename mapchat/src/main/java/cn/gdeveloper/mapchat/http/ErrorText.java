@@ -15,5 +15,6 @@ public final class ErrorText {
 	public static final String ERROR_RESPONSE_DATA		= "返回数据错误" ;
 	public static final String ERROR_CONTENT			= "无效内容" ;
 	public static final String ERROR_GETlOCATION		= "获取地理信息失败" ;
+	public static final String ERROR_SEARCH_EMPTY = "未搜索结果哦";
 	
 }

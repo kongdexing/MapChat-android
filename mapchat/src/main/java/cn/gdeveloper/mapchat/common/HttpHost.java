@@ -9,9 +9,9 @@ public class HttpHost {
 //    private static String   HOST = "http://webim.demo.rong.io/";
 
     public final static String LOGIN = "UserService/Login";
-    public final static String DEMO_FRIENDS = "friends";
-    public final static String DEMO_REQ = "UserService/Register";
-    public final static String DEMO_UPDATE_PROFILE = "update_profile";
+    public final static String REGISTER = "UserService/Register";
+
+    public final static String SEARCH = "UserService/Search";
 
     public final static String DEMO_TOKEN = "token";
     public final static String DEMO_JOIN_GROUP = "join_group";

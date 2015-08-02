@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import cn.gdeveloper.mapchat.R;
+
 public class SimpleViewPagerIndicator extends LinearLayout {
 
-	private static final int COLOR_TEXT_NORMAL = 0xFF000000;
-	private static final int COLOR_INDICATOR_COLOR = Color.GREEN;
+	private static final int COLOR_TEXT_NORMAL = Color.WHITE;
+	private static final int COLOR_INDICATOR_COLOR = Color.WHITE;
 
 	private String[] mTitles;
 	private int mTabCount;
@@ -32,6 +34,7 @@ public class SimpleViewPagerIndicator extends LinearLayout {
 		super(context, attrs);
 		mPaint.setColor(mIndicatorColor);
 		mPaint.setStrokeWidth(9.0F);
+		this.setBackgroundColor(getResources().getColor(R.color.de_title_bg));
 	}
 
 	@Override
@@ -44,7 +47,6 @@ public class SimpleViewPagerIndicator extends LinearLayout {
 		mTitles = titles;
 		mTabCount = titles.length;
 		generateTitleView();
-
 	}
 
 	public void setIndicatorColor(int indicatorColor) {

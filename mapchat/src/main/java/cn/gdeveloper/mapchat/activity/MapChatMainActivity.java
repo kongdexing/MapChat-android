@@ -100,33 +100,21 @@ public class MapChatMainActivity extends FragmentActivity implements LocationSou
 
         SubActionButton.Builder rLSubBuilder = new SubActionButton.Builder(this);
         ImageView rlIcon1 = new ImageView(this);
-        ImageView rlIcon2 = new ImageView(this);
+        ImageView img_addfriend = new ImageView(this);
         //添加好友，地图
         rlIcon1.setImageDrawable(getResources().getDrawable(R.mipmap.ic_action_chat));
-        rlIcon2.setImageDrawable(getResources().getDrawable(R.mipmap.ic_action_camera));
+        img_addfriend.setImageDrawable(getResources().getDrawable(R.mipmap.ic_action_camera));
 
-        rlIcon1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MapChatMainActivity.this, AddFriendsActivity.class));
-            }
-        });
-
-        rlIcon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        rlIcon1.setClickable(true);
+        img_addfriend.setClickable(true);
 
         // Build the menu with default options: light theme, 90 degrees, 72dp radius.
         // Set 4 default SubActionButtons
         final FloatingActionMenu rightLowerMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(rLSubBuilder.setContentView(rlIcon1).build())
-                .addSubActionView(rLSubBuilder.setContentView(rlIcon2).build())
+                .addSubActionView(rLSubBuilder.setContentView(img_addfriend).build())
                 .attachTo(rightLowerButton)
                 .build();
-
         // Listen menu open and close events to animate the button content view
         rightLowerMenu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
             @Override
@@ -147,6 +135,21 @@ public class MapChatMainActivity extends FragmentActivity implements LocationSou
                 animation.start();
             }
         });
+
+        rlIcon1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rightLowerMenu.close(true);
+            }
+        });
+
+        img_addfriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapChatMainActivity.this, AddFriendsActivity.class));
+                rightLowerMenu.close(true);
+            }
+        });
     }
 
     /**
@@ -155,7 +158,6 @@ public class MapChatMainActivity extends FragmentActivity implements LocationSou
     private void setUpMap() {
         mGPSMarker = aMap.addMarker(
                 new MarkerOptions().icon(
-
                         BitmapDescriptorFactory
                                 .fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker))
                 ).anchor((float) 0.5, (float) 0.5));
@@ -272,7 +274,7 @@ public class MapChatMainActivity extends FragmentActivity implements LocationSou
     @Override
     public void onLocationChanged(AMapLocation aLocation) {
         if (mListener != null && aLocation != null) {
-            Log.i(TAG, aLocation.getAMapException().getErrorMessage());
+//            Log.i(TAG, aLocation.getAMapException().getErrorMessage());
             mListener.onLocationChanged(aLocation);// 显示系统小蓝点
             mGPSMarker.setPosition(new LatLng(aLocation.getLatitude(), aLocation.getLongitude()));
         }

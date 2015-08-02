@@ -4,8 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * 卡多拉返回结果 
- * 1. code=1 成功, value json字符串 
+ * 1. code=1 成功, value json字符串
  * 2. code!= 1 失败, value 失败的原因
  * 3. json, 对应的json对象
  */

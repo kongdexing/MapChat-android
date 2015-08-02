@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">碰面</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
     <!-- 登录 -->
     <string name="app_login_show">用户名</string>
     <string name="app_login_password">密码</string>
@@ -47,7 +44,6 @@
     <string name="login_failure">"登录失败"</string>
     <string name="register_user_agreement">"阅读用户协议"</string>
     <string name="register_agree">"同意并注册"</string>
-    <string name="register_declaration">"仅供演示融云SDK功能使用"</string>
 
     <!--设置-->
     <string name="new_message_notice">消息免打扰</string>
@@ -77,18 +73,6 @@
     <string name="de_notification_end">结束时间</string>
     <string name="de_fr_delete">删除并退出</string>
 
-
-
-    <string name="commoditydescription">现货文化生活杂志 homeland家园2014年10月第106期</string>
-    <string name="the_price">￥13.00</string>
-
-
-    <string name="rc_connect">Connect</string>
-    <string name="rc_app_self_chat">Self Chat</string>
-    <string name="rc_friend">Friend</string>
-    <string name="rc_information">send Information message</string>
-
-    <string name="rc_app_conversationlist">enter conversationlist</string>
     <!-- friend list -->
     <string name="friend_list_multi_choice_comfirt_btn">"确定(%1$s)"</string>
     <string name="de_item_delete_friend">"删除"</string>
@@ -111,9 +95,12 @@
 
     <!--public account -->
     <string name="public_account_search">"搜索"</string>
+    <string name="public_account_cancel">"取消"</string>
     <string name="public_add_address">"添加好友"</string>
     <string name="friend_send">"好友请求已发送"</string>
     <string name="friend_send_success">"发送好友请求成功"</string>
+
+
     <!--actionbar title -->
     <string name="de_actionbar_myacc">"个人账号"</string>
     <string name="de_actionbar_detail">"个人详情"</string>
@@ -123,9 +110,5 @@
     <string name="de_actionbar_sub_system">"系统消息"</string>
     <string name="de_actionbar_sub_defult">"聊天"</string>
     <string name="de_actionbar_set_conversation">"聊天设置"</string>
-    <string name="title_activity_login">Login</string>
-    <string name="title_activity_logo">LogoActivity</string>
-    <string name="title_activity_map_chat_main">MapChatMainActivity</string>
-    <string name="title_activity_main_fragment">MainFragmentActivity</string>
-    <string name="title_activity_add_friends">AddFriendsActivity</string>
+    <string name="title_activity_add_friends">添加好友</string>
 </resources>

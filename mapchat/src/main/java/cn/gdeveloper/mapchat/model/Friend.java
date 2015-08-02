@@ -12,43 +12,40 @@ import me.add1.resource.Resource;
  */
 public class Friend implements Serializable, IFilterModel {
 
-    private String userId;
-    private String nickname;
-    private String nicknamePinyin;
-    private String portrait;
+    private String ID;
+    private String userName;
+    private String usernamePinyin;
+    private String portrait; // 头像
     private char searchKey;
+    private String birthday;
+    private String sex;
+    private String phone;
+    private String email;
     private Resource portraitResource;
     private boolean isSelected = false;
     private boolean isAdd = false;
 
-    public Friend(){
+    public Friend() {
 
     }
 
-    public Friend(String userId, String nickname, String portrait) {
-        this.userId = userId;
-        this.nickname = nickname;
-        this.portrait = portrait;
-
-
-    }
     private final void createSeachKey(String nickname) {
 
         if (TextUtils.isEmpty(nickname)) {
             return;
         }
 
-        nicknamePinyin = DePinyinHelper.getInstance().getPinyins(nickname, "");
+        usernamePinyin = DePinyinHelper.getInstance().getPinyins(nickname, "");
 
-        if (nicknamePinyin != null && nicknamePinyin.length() > 0) {
-            char key = nicknamePinyin.charAt(0);
+        if (usernamePinyin != null && usernamePinyin.length() > 0) {
+            char key = usernamePinyin.charAt(0);
             if (key >= 'A' && key <= 'Z') {
 
             } else if (key >= 'a' && key <= 'z') {
                 key -= 32;
-            } else if (key == '★' ) {
+            } else if (key == '★') {
                 key = '★';
-            }else {
+            } else {
                 key = '#';
             }
             searchKey = key;
@@ -57,29 +54,29 @@ public class Friend implements Serializable, IFilterModel {
         }
     }
 
-    public String getUserId() {
-        return userId;
+    public String getID() {
+        return ID;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setID(String id) {
+        this.ID = id;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-        createSeachKey(nickname);
+    public void setUserName(String userName) {
+        this.userName = userName;
+        createSeachKey(userName);
     }
 
-    public String getNicknamePinyin() {
-        return nicknamePinyin;
+    public String getUsernamePinyin() {
+        return usernamePinyin;
     }
 
-    public void setNicknamePinyin(String nicknamePinyin) {
-        this.nicknamePinyin = nicknamePinyin;
+    public void setUsernamePinyin(String usernamePinyin) {
+        this.usernamePinyin = usernamePinyin;
     }
 
     public String getPortrait() {
@@ -116,10 +113,8 @@ public class Friend implements Serializable, IFilterModel {
 
     @Override
     public String getFilterKey() {
-        return getNickname() + getNicknamePinyin();
+        return getUserName() + getUsernamePinyin();
     }
-
-
 
     public boolean isAdd() {
         return isAdd;
@@ -129,5 +124,35 @@ public class Friend implements Serializable, IFilterModel {
         this.isAdd = isAdd;
     }
 
+    public String getBirthday() {
+        return birthday;
+    }
 
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

@@ -10,4 +10,6 @@ public interface IMapChatUserService {
     void register(String email, String username, String mobile, String password,WebResponse response);
 
     void login(String loginname,String password,WebResponse response);
+
+    void search(String searchKey,WebResponse response);
 }

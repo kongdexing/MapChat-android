@@ -77,7 +77,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("Password", password));
         nameValuePairs.add(new BasicNameValuePair("Phone", mobile));
 
-        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HttpHost.HOST + HttpHost.DEMO_REQ), nameValuePairs, callback);
+        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HttpHost.HOST + HttpHost.REGISTER), nameValuePairs, callback);
         AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), null, null);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
@@ -97,11 +97,7 @@ public class DemoApi extends BaseApi {
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("username", username));
 
-        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HttpHost.HOST + HttpHost.DEMO_UPDATE_PROFILE), nameValuePairs, callback);
-        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), null, null);
-        NetworkManager.getInstance().requestAsync(httpRequest);
-
-        return httpRequest;
+        return null;
 
     }
 
@@ -112,12 +108,7 @@ public class DemoApi extends BaseApi {
      * @return
      */
     public AbstractHttpRequest<User> getToken(ApiCallback<User> callback) {
-        ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.GET_METHOD, URI.create(HttpHost.HOST + HttpHost.DEMO_TOKEN), callback);
-        AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<User>(User.class), mAuthType);
-        NetworkManager.getInstance().requestAsync(httpRequest);
-
-        return httpRequest;
-
+        return null;
     }
 
 
@@ -130,11 +121,11 @@ public class DemoApi extends BaseApi {
 
     public AbstractHttpRequest<Friends> getFriends(ApiCallback<Friends> callback) {
 
-        ApiReqeust<Friends> apiReqeust = new DefaultApiReqeust<Friends>(ApiReqeust.GET_METHOD, URI.create(HttpHost.HOST + HttpHost.DEMO_FRIENDS), callback);
-        AbstractHttpRequest<Friends> httpRequest = apiReqeust.obtainRequest(new GsonParser<Friends>(Friends.class), mAuthType);
-        NetworkManager.getInstance().requestAsync(httpRequest);
+//        ApiReqeust<Friends> apiReqeust = new DefaultApiReqeust<Friends>(ApiReqeust.GET_METHOD, URI.create(HttpHost.HOST + HttpHost.DEMO_FRIENDS), callback);
+//        AbstractHttpRequest<Friends> httpRequest = apiReqeust.obtainRequest(new GsonParser<Friends>(Friends.class), mAuthType);
+//        NetworkManager.getInstance().requestAsync(httpRequest);
 
-        return httpRequest;
+        return null;
 
     }
 

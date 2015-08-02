@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.gdeveloper.mapchat" >
+    package="cn.gdeveloper.mapchat">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -31,10 +31,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name=".activity.LogoActivity"
-            android:label="@string/title_activity_logo" >
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="cpj2xarlj5k2n" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="018aa6cb81a515c1fcd9d86acc8968af" />
+
+        <activity android:name=".activity.LogoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,26 +59,16 @@
             android:name=".activity.RegisterActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MapChatMainActivity"
-            android:label="@string/title_activity_map_chat_main" />
-
-        <meta-data
-            android:name="RONG_CLOUD_APP_KEY"
-            android:value="cpj2xarlj5k2n" />
-
-        <activity
-            android:name=".activity.MainFragmentActivity"
-            android:label="@string/title_activity_main_fragment" />
-
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="018aa6cb81a515c1fcd9d86acc8968af" />
-
+        <activity android:name=".activity.MapChatMainActivity" />
         <activity
             android:name=".activity.AddFriendsActivity"
-            android:label="@string/title_activity_add_friends" >
-        </activity>
+            android:label="@string/title_activity_add_friends"
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:configChanges="orientation|keyboard"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.MainFragmentActivity" />
+
     </application>
 
 </manifest>
