@@ -35,28 +35,28 @@ public class LogoActivity extends BaseActivity {
         Animation animation = AnimationUtils.loadAnimation(LogoActivity.this, R.anim.translate_anim);
         mImgBackgroud.startAnimation(animation);
 
-        String loginname = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_LOGINNAME,"");
-        String pwd = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_PASSWORD,"");
-        if(!loginname.isEmpty()&&!pwd.isEmpty()){
-            mDialog = new LoadingDialog(this);
-            MapChatHttpService.getInstance().login(loginname,pwd,new WebResponse(mHandler));
-        }else{
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    LogoActivity.this.startActivity(new Intent(LogoActivity.this,LoginActivity.class));
-                    LogoActivity.this.finish();
-                }
-            },2000);
-        }
+//        String loginname = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_LOGINNAME,"");
+//        String pwd = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_PASSWORD,"");
+//        if(!loginname.isEmpty()&&!pwd.isEmpty()){
+//            mDialog = new LoadingDialog(this);
+//            MapChatHttpService.getInstance().login(loginname,pwd,new WebResponse(mHandler));
+//        }else{
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    LogoActivity.this.startActivity(new Intent(LogoActivity.this,LoginActivity.class));
+//                    LogoActivity.this.finish();
+//                }
+//            },2000);
+//        }
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                LogoActivity.this.startActivity(new Intent(LogoActivity.this,MapChatMainActivity.class));
-//                LogoActivity.this.finish();
-//            }
-//        },1000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LogoActivity.this.startActivity(new Intent(LogoActivity.this,MyActivity.class));
+                LogoActivity.this.finish();
+            }
+        },1000);
     }
 
     @Override
