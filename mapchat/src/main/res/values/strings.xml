@@ -111,4 +111,8 @@
     <string name="de_actionbar_sub_defult">"聊天"</string>
     <string name="de_actionbar_set_conversation">"聊天设置"</string>
     <string name="title_activity_add_friends">添加好友</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

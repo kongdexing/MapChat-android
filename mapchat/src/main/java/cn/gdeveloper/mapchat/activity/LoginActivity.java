@@ -204,7 +204,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 RongIM.getInstance().setUserInfoAttachedState(true);
 //                RongCloudEvent.getInstance().setOtherListener();
 
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, MapChatMainActivity.class));
                 finish();
                 break;
             case MapChatMessageID.MSG_MEMBER_LOGIN_FAILED:

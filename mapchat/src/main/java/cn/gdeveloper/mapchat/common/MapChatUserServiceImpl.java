@@ -109,29 +109,30 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
             public void dispatchResponse(Object value) {
                 super.dispatchResponse(value);
                 final Result result = mResult.cloneResult();
-                if (analyseJSON(result, value) == CODE_OK) {
+                if (analyseResult2(result, value) == CODE_OK) {
                     try {
                         JSONObject jsonVal = new JSONObject(result.getValue());
-                        String total = jsonVal.getString("total");
-                        JSONArray jsonArray = jsonVal.getJSONArray("rows");
+//                        int total = jsonVal.getInt("total");
+//                        if (total == 0) {
+//                            response.sendMessage(MSG_SEARCH_SUCCESS, ErrorText.ERROR_SEARCH_EMPTY);
+//                            return;
+//                        }
+                        JSONArray jsonArray = jsonVal.getJSONArray("list_ret_friend");
                         int size = jsonArray.length();
-                        if (size == 0) {
-                            response.sendMessage(MSG_SEARCH_SUCCESS, ErrorText.ERROR_SEARCH_EMPTY);
-                            return;
-                        }
                         ArrayList<Friend> list_friend = new ArrayList<Friend>();
                         for (int i = 0; i < size; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             Friend friend = new Friend();
                             friend.setID(obj.getString("ID"));
-                            friend.setUserName(obj.getString("UserName"));
-                            friend.setPortrait(obj.getString("ImageUrl"));
-                            friend.setBirthday(obj.getString("Birthday"));
-                            friend.setSex(obj.getString("Sex"));
+                            friend.setUserName(obj.getString("userName"));
+                            friend.setPortrait(obj.getString("portrait"));
+                            friend.setBirthday(obj.getString("birthday"));
+                            friend.setSex(obj.getString("sex"));
                             list_friend.add(friend);
                         }
                         response.sendMessage(MSG_SEARCH_SUCCESS, list_friend);
                     } catch (Exception ex) {
+                        Log.i(TAG, "search error :" + ex.getMessage());
                         response.sendMessage(MSG_SEARCH_FAILED, ErrorText.ERROR_PARSER_JSON);
                     }
                 } else {
