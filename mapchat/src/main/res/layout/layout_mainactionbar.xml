@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/tip_actionbar_height"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/main_actionbar_top"
+        android:layout_marginLeft="@dimen/main_actionbar_left"
+        android:layout_marginTop="@dimen/main_actionbar_top"
+        android:background="@mipmap/icon_user_def" />
+
+    <TextView
+        android:id="@+id/txt_main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="联系人"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/img_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/main_actionbar_top"
+        android:layout_marginRight="@dimen/main_actionbar_left"
+        android:layout_marginTop="@dimen/main_actionbar_top"
+        android:visibility="gone"
+        android:background="@drawable/top_map_selector" />
+
+</RelativeLayout>

@@ -143,16 +143,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mHandler = new Handler(this);
         mDialog = new LoadingDialog(this);
 
-        rl_login_parent = (RelativeLayout)findViewById(R.id.rl_login_parent);
+        rl_login_parent = (RelativeLayout) findViewById(R.id.rl_login_parent);
         rl_login_parent.getRootView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 int rootHeight = rl_login_parent.getRootView().getHeight();
-                int height  = rl_login_parent.getHeight();
-                int inerval = rootHeight-height;
-                if(inerval>100){
+                int height = rl_login_parent.getHeight();
+                int inerval = rootHeight - height;
+                if (inerval > 100) {
                     mHandler.sendEmptyMessage(HANDLER_LOGIN_HAS_FOCUS);
-                }else{
+                } else {
                     mHandler.sendEmptyMessage(HANDLER_LOGIN_HAS_NO_FOCUS);
                 }
             }
@@ -197,14 +197,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public boolean handleMessage(Message msg) {
-        switch (msg.what){
+        switch (msg.what) {
             case MapChatMessageID.MSG_MEMBER_LOGIN_SUCCESS:
                 hideDialog();
                 WinToast.toast(LoginActivity.this, R.string.login_success);
                 RongIM.getInstance().setUserInfoAttachedState(true);
 //                RongCloudEvent.getInstance().setOtherListener();
-
-                startActivity(new Intent(this, MapChatMainActivity.class));
+                startActivity(new Intent(this, MyActivity.class));
                 finish();
                 break;
             case MapChatMessageID.MSG_MEMBER_LOGIN_FAILED:
@@ -240,7 +239,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 showDialog();
-                MapChatHttpService.getInstance().login(userName,passWord,new WebResponse(mHandler));
+                MapChatHttpService.getInstance().login(userName, passWord, new WebResponse(mHandler));
                 break;
             case R.id.de_left://注册
             case R.id.de_login_register://注册
@@ -409,13 +408,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    private void showDialog(){
-        if (mDialog != null&&!mDialog.isShowing()) {
+    private void showDialog() {
+        if (mDialog != null && !mDialog.isShowing()) {
             mDialog.show();
         }
     }
 
-    private void hideDialog(){
+    private void hideDialog() {
         if (mDialog != null) {
             mDialog.dismiss();
         }

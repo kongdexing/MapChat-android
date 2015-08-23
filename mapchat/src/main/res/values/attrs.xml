@@ -19,6 +19,11 @@
         </attr>
     </declare-styleable>
 
+    <attr name="backActionBar" format="reference" />
+    <declare-styleable name="BackActionBar">
+        <attr name="action_title" format="integer"/>
+    </declare-styleable>
+
     <attr name="tabView" format="reference" />
     <attr name="iconWidth" format="dimension" />
     <attr name="iconHeight" format="dimension" />

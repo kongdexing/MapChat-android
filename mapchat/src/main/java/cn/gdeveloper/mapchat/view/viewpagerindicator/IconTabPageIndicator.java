@@ -69,6 +69,7 @@ public class IconTabPageIndicator extends LinearLayout implements PageIndicator 
         setHorizontalScrollBarEnabled(false);
 
         mTabLayout = new LinearLayout(context, null);
+//        mTabLayout.setBackgroundColor(context.getResources().getColor(R.color.default_bg));
         addView(mTabLayout, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
     }
 
@@ -135,11 +136,11 @@ public class IconTabPageIndicator extends LinearLayout implements PageIndicator 
         tabView.mIndex = index;
         tabView.setOnClickListener(mTabClickListener);
         tabView.setText(text);
-
         if (iconResId > 0) {
             tabView.setIcon(iconResId);
         }
-
+        int paddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.tab_padding_top);
+        tabView.setPadding(0, paddingTop, 0, paddingTop);
         mTabLayout.addView(tabView, new LayoutParams(0, MATCH_PARENT, 1));
     }
 

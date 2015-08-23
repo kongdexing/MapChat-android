@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.gdeveloper.mapchat" >
+    package="cn.gdeveloper.mapchat">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -31,7 +31,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="cpj2xarlj5k2n" />
@@ -39,7 +39,9 @@
             android:name="com.amap.api.v2.apikey"
             android:value="018aa6cb81a515c1fcd9d86acc8968af" />
 
-        <activity android:name=".activity.LogoActivity" >
+        <activity
+            android:name=".activity.LogoActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,16 +61,16 @@
             android:name=".activity.RegisterActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MapChatMainActivity" />
         <activity
             android:name=".activity.AddFriendsActivity"
             android:configChanges="orientation|keyboard"
             android:label="@string/title_activity_add_friends"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity android:name=".activity.MyActivity"></activity>
         <activity
-            android:name=".activity.MyActivity" >
-        </activity>
+            android:name=".activity.BaseActionBarActivity"
+            android:label="@string/title_activity_base_action_bar"></activity>
     </application>
 
 </manifest>

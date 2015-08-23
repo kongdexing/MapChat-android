@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/library/src/main/java/com/oguzdev/circularfloatingactionmenu/library/animation/SlideInAnimationHandler.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/activity/AddFriendsActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/activity/LoginActivity.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/activity/MyActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/fragment/BaseFragment.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/Button.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/FloatingActionButtonL.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/viewpagerindicator/IconPagerAdapter.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/viewpagerindicator/IconTabPageIndicator.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/viewpagerindicator/PageIndicator.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/color" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/fab.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/tab_record_selector.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/tab_setting_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/tab_user_selector.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/top_map_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/layout/activity_my.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/layout/fragment.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/icon_record_normal.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/icon_record_pressed.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/icon_user_normal.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/icon_user_pressed.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/plus.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/shadow.png" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

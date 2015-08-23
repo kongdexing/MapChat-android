@@ -29,12 +29,4 @@ public class BaseFragment extends Fragment {
     public void setIconId(int iconId) {
         this.iconId = iconId;
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment, null, false);
-        TextView textView = (TextView) view.findViewById(R.id.text);
-        textView.setText(getTitle());
-        return view;
-    }
 }

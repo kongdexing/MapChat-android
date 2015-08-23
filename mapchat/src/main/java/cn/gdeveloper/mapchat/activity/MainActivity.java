@@ -108,7 +108,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initView() {
         mFragmentManager = getSupportFragmentManager();
-        getSupportActionBar().setTitle(R.string.main_name);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm); // 获取屏幕信息
         indicatorWidth = dm.widthPixels / 4;// 指示器宽度为屏幕宽度的4/1
