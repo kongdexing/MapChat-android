@@ -5,3 +5,7 @@
 .DS_Store
 /build
 /captures
+/kit
+/mapchat/build.gradle
+/mapchat/mapchat.iml
+/library/build.gradle
