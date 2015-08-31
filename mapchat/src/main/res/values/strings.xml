@@ -97,6 +97,8 @@
     <string name="public_account_cancel">"取消"</string>
     <string name="search_hint">手机号/邮箱</string>
     <string name="search_empty_hint">请输入手机号或邮箱</string>
+    <string name="search_result_empty">暂无搜索结果</string>
+
     <string name="public_add_address">"添加好友"</string>
     <string name="friend_send">"好友请求已发送"</string>
     <string name="friend_send_success">"发送好友请求成功"</string>
@@ -115,5 +117,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_search_result">SearchResultActivity</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="title_activity_tab_message">TabMessageActivity</string>
+    <string name="title_activity_tab_contact">TabContactActivity</string>
+    <string name="title_activity_tab_setting">TabSettingActivity</string>
 
 </resources>

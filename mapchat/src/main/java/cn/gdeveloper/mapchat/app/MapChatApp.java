@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import cn.gdeveloper.mapchat.common.MapChatHttpService;
 import io.rong.imkit.RongIM;
 
 public class MapChatApp extends Application {
@@ -12,6 +13,20 @@ public class MapChatApp extends Application {
     public void onCreate() {
 
         super.onCreate();
+
+        initApp();
+
+        initRongIM();
+
+        //友盟错误统计
+//        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
+    }
+
+    private void initApp(){
+        MapChatHttpService.getInstance().init(this);
+    }
+
+    private void initRongIM(){
         /**
          * IMKit SDK调用第一步 初始化
          * context上下文
@@ -37,9 +52,6 @@ public class MapChatApp extends Application {
 //                e.printStackTrace();
 //            }
 //        }
-        //友盟错误统计
-//        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
-
     }
 
     /**

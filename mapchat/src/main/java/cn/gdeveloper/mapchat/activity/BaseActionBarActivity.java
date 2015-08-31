@@ -12,17 +12,20 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import cn.gdeveloper.mapchat.R;
+import cn.gdeveloper.mapchat.common.MapChatHandler;
 import cn.gdeveloper.mapchat.ui.SystemBarTintManager;
 
 public class BaseActionBarActivity extends FragmentActivity {
 
     protected SystemBarTintManager mTintManager;
+    protected MapChatHandler mHandler;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
         }
+        mHandler = getMessageHandler();
         mTintManager = new SystemBarTintManager(this);
         mTintManager.setStatusBarTintEnabled(true);
         mTintManager.setStatusBarTintResource(R.color.default_bg);
@@ -39,5 +42,10 @@ public class BaseActionBarActivity extends FragmentActivity {
             winParams.flags &= ~bits;
         }
         win.setAttributes(winParams);
+    }
+
+    /** 每个Activity Override该方法来响应业务逻辑处理 */
+    protected MapChatHandler getMessageHandler() {
+        return new MapChatHandler(this) ;
     }
 }

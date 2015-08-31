@@ -225,11 +225,14 @@ public class IconTabPageIndicator extends LinearLayout implements PageIndicator 
 
         final int tabCount = mTabLayout.getChildCount();
         for (int i = 0; i < tabCount; i++) {
-            final View child = mTabLayout.getChildAt(i);
+            final TabView child = (TabView)mTabLayout.getChildAt(i);
             final boolean isSelected = (i == item);
             child.setSelected(isSelected);
             if (isSelected) {
+                child.setItemChecked();
                 animateToTab(item);
+            }else{
+                child.setItemUnChecked();
             }
         }
     }
@@ -278,6 +281,14 @@ public class IconTabPageIndicator extends LinearLayout implements PageIndicator 
                 icon.setBounds(0, 0, width, height);
                 setCompoundDrawables(null, icon, null, null);
             }
+        }
+
+        public void setItemChecked(){
+            setTextColor(getResources().getColor(R.color.default_bg));
+        }
+
+        public void setItemUnChecked(){
+            setTextColor(getResources().getColor(R.color.black_textview));
         }
 
         public int getIndex() {

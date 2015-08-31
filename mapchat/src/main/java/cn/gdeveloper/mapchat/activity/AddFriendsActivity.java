@@ -1,6 +1,8 @@
 package cn.gdeveloper.mapchat.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import cn.gdeveloper.mapchat.R;
+import cn.gdeveloper.mapchat.common.MapChatHandler;
 import cn.gdeveloper.mapchat.common.MapChatHttpService;
 import cn.gdeveloper.mapchat.http.MapChatMessageID;
 import cn.gdeveloper.mapchat.http.WebResponse;
@@ -87,33 +90,39 @@ public class AddFriendsActivity extends BaseActionBarActivity implements View.On
             WinToast.toast(AddFriendsActivity.this, R.string.search_empty_hint);
             return;
         }
+
         imm.hideSoftInputFromWindow(edt_input.getWindowToken(), 0); //强制隐藏键盘
-        MapChatHttpService.getInstance().search(searchKey, new WebResponse(handler));
+        MapChatHttpService.getInstance().search(searchKey, new WebResponse(mHandler));
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case WebResponse.HttpRequestMessage.MSG_REQUEST_START:
-                    showDialog();
-                    break;
-                case WebResponse.HttpRequestMessage.MSG_REQUEST_END:
-                    hideDialog();
-                    break;
-                case MapChatMessageID.MSG_SEARCH_SUCCESS:
-                    Log.i("AddFriend", "MSG_SEARCH_SUCCESS");
-                    adapter.loadData((ArrayList<Friend>) msg.obj);
+    @Override
+    protected MapChatHandler getMessageHandler() {
+        return new MapChatHandler(this) {
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case WebResponse.HttpRequestMessage.MSG_REQUEST_START:
+                        showDialog();
+                        break;
+                    case WebResponse.HttpRequestMessage.MSG_REQUEST_END:
+                        hideDialog();
+                        break;
+                    case MapChatMessageID.MSG_SEARCH_SUCCESS:
+                        Log.i("AddFriend", "MSG_SEARCH_SUCCESS");
+                        adapter.loadData((ArrayList<Friend>) msg.obj);
+                        Intent intent = new Intent(AddFriendsActivity.this, SearchResultActivity.class);
+                        intent.putExtra("searchKey", edt_input.getText().toString().trim());
+                        intent.putExtra("searchVal", (ArrayList<Friend>) msg.obj);
+                        startActivity(intent);
 //                    recycler_SearchFriend.setAdapter(adapter);
-
-                    break;
-                case MapChatMessageID.MSG_SEARCH_FAILED:
-                    WinToast.toast(AddFriendsActivity.this, (String) msg.obj);
-                    break;
+                        break;
+                    case MapChatMessageID.MSG_SEARCH_FAILED:
+                        WinToast.toast(AddFriendsActivity.this, (String) msg.obj);
+                        break;
+                }
+                super.handleMessage(msg);
             }
-            super.handleMessage(msg);
-        }
-    };
+        };
+    }
 
     private void showDialog() {
         if (mDialog != null && !mDialog.isShowing()) {

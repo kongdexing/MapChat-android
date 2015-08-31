@@ -40,6 +40,10 @@ public class BackActionBar extends LinearLayout implements View.OnClickListener 
         txt_title.setOnClickListener(this);
     }
 
+    public void setTitle(String title) {
+        txt_title.setText(title);
+    }
+
     public void setTitle(int title) {
         txt_title.setText(title);
     }

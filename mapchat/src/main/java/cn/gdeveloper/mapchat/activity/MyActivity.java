@@ -27,9 +27,6 @@ public class MyActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-
-//        mTintManager.setStatusBarTintEnabled(true);
-//        mTintManager.setStatusBarTintResource(R.color.default_bg);
         initViews();
     }
 
