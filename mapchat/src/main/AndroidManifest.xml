@@ -44,7 +44,6 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -65,7 +64,6 @@
             android:name=".activity.AddFriendsActivity"
             android:configChanges="orientation|keyboard"
             android:label="@string/title_activity_add_friends"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name=".activity.MyActivity" />
         <activity

@@ -43,7 +43,6 @@ public class MyActivity extends BaseActionBarActivity {
 
     private List<BaseFragment> initFragments() {
         List<BaseFragment> fragments = new ArrayList<BaseFragment>();
-
         MessageFragment messageFragment = new MessageFragment();
         messageFragment.setTitle(getResources().getString(R.string.tab_message));
         messageFragment.setIconId(R.drawable.tab_record_selector);
@@ -58,7 +57,6 @@ public class MyActivity extends BaseActionBarActivity {
         settingFragment.setTitle(getResources().getString(R.string.tab_setting));
         settingFragment.setIconId(R.drawable.tab_setting_selector);
         fragments.add(settingFragment);
-
         return fragments;
     }
 

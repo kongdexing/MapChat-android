@@ -8,12 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
-import com.example.carduolalibrary.BuildConfig;
+import cn.gdeveloper.mapchat.BuildConfig;
 
 /**
- * 
- * @author zhouwei
- * 
  */
 public final class ImageCache {
 
@@ -127,7 +124,7 @@ public final class ImageCache {
 	/**
 	 * Get from memory cache.
 	 * 
-	 * @param data
+	 * @param url
 	 *            Unique identifier for which item to get
 	 * @return The bitmap drawable if found in cache, null otherwise
 	 */
@@ -148,7 +145,7 @@ public final class ImageCache {
 	/**
 	 * Get from disk cache.
 	 * 
-	 * @param data
+	 * @param url
 	 *            Unique identifier for which item to get
 	 * @return The bitmap if found in cache, null otherwise
 	 */

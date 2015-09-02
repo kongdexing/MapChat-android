@@ -264,7 +264,6 @@ public class IconTabPageIndicator extends LinearLayout implements PageIndicator 
         @Override
         public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
             // Re-measure if we went beyond our maximum size.
             if (mTabWidth > 0) {
                 super.onMeasure(MeasureSpec.makeMeasureSpec(mTabWidth, MeasureSpec.EXACTLY),

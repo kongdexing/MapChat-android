@@ -16,12 +16,12 @@
 
 package cn.gdeveloper.mapchat.http.download;
 
-import com.example.carduolalibrary.BuildConfig;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+
+import cn.gdeveloper.mapchat.BuildConfig;
 
 /**
  * A BitmapDrawable that keeps track of whether it is being displayed or cached.
@@ -90,7 +90,6 @@ public final class RecyclingBitmapDrawable extends BitmapDrawable {
         	if(BuildConfig.DEBUG){
         		Log.w(LOG_TAG, "zhouwei: No longer being used or cached so recycling. " + toString());
         	}
-        	
             getBitmap().recycle();
         }
     }
