@@ -127,7 +127,7 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
                             friend.setUserName(obj.getString("userName"));
                             friend.setPortrait(obj.getString("portrait"));
                             friend.setBirthday(obj.getString("birthday"));
-                            friend.setSex(obj.getString("sex"));
+                            friend.setSex(obj.getInt("sex"));
                             list_friend.add(friend);
                         }
                         response.sendMessage(MSG_SEARCH_SUCCESS, list_friend);

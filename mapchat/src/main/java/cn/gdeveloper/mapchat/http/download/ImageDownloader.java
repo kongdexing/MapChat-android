@@ -48,9 +48,7 @@ public final class ImageDownloader {
     private Context 	mContext ;
     private Resources 	mResources ;
     private State		mState = State.STATE_ON ;
-    private boolean 	mWifiConnected ;
-    private static boolean 	mDownHigh = true ;
-	
+
 	private ImageDownloader(Context context,String cacheName,float percent){
 		
 		 if (percent < 0.05f || percent > 0.8f) {
@@ -64,8 +62,6 @@ public final class ImageDownloader {
 		 
 		 mContext			= context ;
 		 mResources			= context.getResources() ;
-		 mWifiConnected		= isWifiConnected(context);
-		 
 		 mCachePath 	 	=  getDiskCacheDir(context,cacheName);
 		 mMemCacheSize 		=  Math.round(percent * Runtime.getRuntime().maxMemory() / 1024);
 		 mImageCache		= new ImageCache(mMemCacheSize,mCachePath);
@@ -110,16 +106,7 @@ public final class ImageDownloader {
 	public static ImageDownloader getImageDownloader(){
 		return _instance ;
 	}
-	
-	/**
-	 * 设置下载高清
-	 * 
-	 * @param high
-	 */
-	public static void setDownloadHD(boolean high){
-		mDownHigh	= high ;
-	}
-	
+
 	public void clearDiskCacheFile() {
 
 		Log.d(TAG, "clearDiskCache, It will remove all cache file from disk");
@@ -173,36 +160,18 @@ public final class ImageDownloader {
 		
 		// 选择图片地址
 		final ImageCache imageCache = mImageCache ;
-		final String hdUrl		= item.getHighUrl() ;
-		final String lowUrl		= item.getLowUrl() ;
+		final String validUrl		= item.getValidUrl() ;
 		String unique 			= item.getValidUrl() ;
 		
 		// 检测有效地址
-		if(unique == null || unique.isEmpty()){
-			// 是否已经存在高清,优先选择高清
-			if(imageCache != null && imageCache.checkURLInDisk(hdUrl)){
-				item.setValidUrl(hdUrl);
-			} else {
-				// 高清标记是否打开
-				if(mWifiConnected){
-					item.setValidUrl(hdUrl);
-				} else {
-					if(mDownHigh){
-						item.setValidUrl(hdUrl);
-					}else {
-						item.setValidUrl(lowUrl);
-					}
-				}
-			}
-		}
-		
+		item.setValidUrl(validUrl);
 		// 使用地址
 		unique 		= item.getValidUrl() ;
         BitmapDrawable value = null;
         
         // 是否有效地址
         if(unique == null || unique.isEmpty()){
-        	Log.e(TAG, "zhouwei:Item Valid error");
+        	Log.e(TAG, "Item Valid error");
         	return ;
         }
         
@@ -212,7 +181,7 @@ public final class ImageDownloader {
         	if(callback != null){
         		BitmapDrawable src = imageCache.getBitmapFromMemCache(unique);
         		if(src != null && src.getBitmap() != null){
-        			Bitmap des = callback.handleBitmap(item, src.getBitmap(), unique.equals(hdUrl));
+        			Bitmap des = callback.handleBitmap(item, src.getBitmap());
         			if(des != null){
         				value = new BitmapDrawable(des);
         			}
@@ -505,8 +474,7 @@ public final class ImageDownloader {
             if(value != null && imageView != null && value.drawable != null){
             	// 自定义
             	if(value.callback != null){
-            		boolean hd = value.data.getValidUrl().equals(value.data.getHighUrl());
-            		Bitmap des = value.callback.handleBitmap(value.data, value.drawable.getBitmap(), hd);
+            		Bitmap des = value.callback.handleBitmap(value.data, value.drawable.getBitmap());
             		if(des != null){
             			setImageDrawable(value.fadeIn,imageView, new BitmapDrawable(des),value.defBitmap);
             		}

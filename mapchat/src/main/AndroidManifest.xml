@@ -70,8 +70,7 @@
             android:name=".activity.BaseActionBarActivity"
             android:label="@string/title_activity_base_action_bar" />
         <activity
-            android:name=".activity.SearchResultActivity"
-            android:label="@string/title_activity_search_result" >
+            android:name=".activity.SearchResultActivity" >
         </activity>
     </application>
 

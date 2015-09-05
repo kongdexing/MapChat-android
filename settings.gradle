@@ -1,1 +1,1 @@
-include ':mapchat', ':kit', ':library'
+include ':mapchat', ':kit', ':widget'

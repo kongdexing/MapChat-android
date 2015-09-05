@@ -4,13 +4,7 @@ package cn.gdeveloper.mapchat.http.download;
  */
 public class ImageItem implements Cloneable {
 
-	/** 高清URL */
-	private String highUrl ;
-	
-	/** 低分辨率 URL */
-	private String lowUrl ;
-	
-	/** 当前正在使用的URL.默认是使用High */
+	/** 当前正在使用的URL */
 	private String validUrl ;
 	
 	private int decodeWidth ;
@@ -20,8 +14,6 @@ public class ImageItem implements Cloneable {
 	private Object tag ;
 
 	public ImageItem(){
-		setHighUrl("");
-		setLowUrl("");
 		setDecodeWidth(0);
 		setDecodeHeight(0);
 		setTag(null);
@@ -41,22 +33,6 @@ public class ImageItem implements Cloneable {
 
 	public void setTag(Object tag) {
 		this.tag = tag;
-	}
-
-	public String getHighUrl() {
-		return highUrl;
-	}
-
-	public void setHighUrl(String highUrl) {
-		this.highUrl = highUrl;
-	}
-
-	public String getLowUrl() {
-		return lowUrl;
-	}
-
-	public void setLowUrl(String lowUrl) {
-		this.lowUrl = lowUrl;
 	}
 
 	public int getDecodeWidth() {

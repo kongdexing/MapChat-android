@@ -69,7 +69,7 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<SearchFriendAdapte
             super(itemView);
             Log.i("ListItemViewHolder", "ListItemViewHolder init ");
             txt_name = (TextView) itemView.findViewById(R.id.txt_name);
-            txt_birthday = (TextView) itemView.findViewById(R.id.txt_birthday);
+//            txt_birthday = (TextView) itemView.findViewById(R.id.txt_birthday);
         }
     }
 

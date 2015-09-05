@@ -34,7 +34,9 @@ public class BackActionBar extends LinearLayout implements View.OnClickListener 
         typedArray.recycle();
         View view = LayoutInflater.from(context).inflate(R.layout.layout_backactionbar, this);
         txt_title = (TextView) view.findViewById(R.id.txt_title);
-        txt_title.setText(strResId);
+        if (strResId != 0) {
+            txt_title.setText(strResId);
+        }
         ImageView img_back = (ImageView) view.findViewById(R.id.img_back);
         img_back.setOnClickListener(this);
         txt_title.setOnClickListener(this);

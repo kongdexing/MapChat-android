@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import java.net.ContentHandler;
-
 /**
  * 图片下载管理
  */
@@ -23,21 +21,20 @@ public final class DownloaderImpl implements IDownloader {
 
 	@Override
 	public void downloadBitmap(String url, ImageView imageView) {
-		downloadBitmap(url, url,imageView, -1, false);
+		downloadBitmap(url,imageView, -1, false);
 	}
 
 	@Override
-	public void downloadBitmap(String hdUrl,String lowUrl, ImageView imageView, int rid) {
-		downloadBitmap(hdUrl, lowUrl,imageView, rid, true);
+	public void downloadBitmap(String url, ImageView imageView, int rid) {
+		downloadBitmap(url, imageView, rid, true);
 	}
 
 	@Override
-	public void downloadBitmap(String hdUrl,String lowUrl, ImageView imageView, int rid,boolean fadeIn) {
+	public void downloadBitmap(String url, ImageView imageView, int rid,boolean fadeIn) {
 		
 		final ImageItem item = mImageItem.clone() ;
-		item.setHighUrl(hdUrl);
-		item.setLowUrl(lowUrl);
-		
+		item.setValidUrl(url);
+
 		mCacheManager.downloadBitmap(item, imageView, rid, null, false);
 	}
 
@@ -45,7 +42,7 @@ public final class DownloaderImpl implements IDownloader {
 	public Bitmap getBitmap(String url) {
 		if(mCacheManager.getBitmapFromCache(url)==null){
 			//缓存无数据了，重新下载吧
-			downloadBitmap(url,url,new ImageView(null));
+			downloadBitmap(url,new ImageView(null));
 		}
 		return mCacheManager != null ? mCacheManager.getBitmapFromCache(url) : null;
 	}
@@ -60,61 +57,49 @@ public final class DownloaderImpl implements IDownloader {
 	}
 
 	@Override
-	public void downloadBitmap(String hdUrl,String lowUrl, ImageView imageView) {
-		downloadBitmap(hdUrl, lowUrl,imageView, null);
-	}
-
-	@Override
-	public void downloadBitmap(String hdUrl,String lowUrl,
+	public void downloadBitmap(String url,
 			ImageView imageView, Bitmap defaultBitmap) {
-		downloadBitmap(hdUrl,lowUrl,imageView,defaultBitmap,null,defaultBitmap != null);
+		downloadBitmap(url,imageView,defaultBitmap,null,defaultBitmap != null);
 	}
 
 	@Override
-	public void downloadBitmap(String hdUrl,String lowUrl,
+	public void downloadBitmap(String url,
 			ImageView imageView, Bitmap defaultBitmap,
 			IDownloaderCallback callback) {
-		downloadBitmap(hdUrl,lowUrl,imageView,defaultBitmap,callback,defaultBitmap != null);
+		downloadBitmap(url,imageView,defaultBitmap,callback,defaultBitmap != null);
 	}
 
 	@Override
-	public void downloadBitmap(String hdUrl,String lowUrl, Object tag, ImageView imageView,
+	public void downloadBitmap(String url, Object tag, ImageView imageView,
 			Bitmap defaultBitmap, IDownloaderCallback callback) {
-		downloadBitmap(hdUrl, lowUrl,tag,imageView, defaultBitmap, callback, defaultBitmap != null);
+		downloadBitmap(url, tag,imageView, defaultBitmap, callback, defaultBitmap != null);
 	}
 
 	@Override
-	public void downloadBitmap(String hdUrl,String lowUrl,
+	public void downloadBitmap(String url,
 			ImageView imageView, Bitmap defaultBitmap,
 			IDownloaderCallback callback, boolean fadeInBitmap) {
 		
-		downloadBitmap(hdUrl, lowUrl,null,imageView, defaultBitmap, callback, fadeInBitmap);
-	}
-	
-	@Override
-	public void setDownloadHDImage(boolean downHD) {
-		ImageDownloader.setDownloadHD(downHD);
+		downloadBitmap(url, null,imageView, defaultBitmap, callback, fadeInBitmap);
 	}
 
 	@Override
-	public void downloadBitmap(String hdUrl,String lowUrl, Object tag,ImageView imageView, int rid,
+	public void downloadBitmap(String url, Object tag,ImageView imageView, int rid,
 			IDownloaderCallback callback, boolean fadeInBitmap) {
 		
 		final ImageItem item = mImageItem.clone() ;
-		item.setHighUrl(hdUrl);
-		item.setLowUrl(lowUrl);
+		item.setValidUrl(url);
 		item.setTag(tag);
 		
 		mCacheManager.downloadBitmap(item, imageView, rid, callback, false);
 	}
 
-	private final void downloadBitmap(String hdUrl,String lowUrl,Object tag,
+	private final void downloadBitmap(String url,Object tag,
 			ImageView imageView, Bitmap defaultBitmap,
 			IDownloaderCallback callback, boolean fadeInBitmap) {
 		
 		final ImageItem item = mImageItem.clone() ;
-		item.setHighUrl(hdUrl);
-		item.setLowUrl(lowUrl);
+		item.setValidUrl(url);
 		item.setTag(tag);
 		
 		mCacheManager.downloadBitmap(item, imageView, defaultBitmap, callback, false);

@@ -117,6 +117,19 @@ public class AddFriendsActivity extends BaseActionBarActivity implements View.On
                         break;
                     case MapChatMessageID.MSG_SEARCH_FAILED:
                         WinToast.toast(AddFriendsActivity.this, (String) msg.obj);
+
+                        ArrayList<Friend> friends = new ArrayList<Friend>();
+                        Friend friend = new Friend();
+                        friend.setSex(0);
+                        friend.setBirthday("2000-10-01");
+                        friend.setPortrait("http://v1.qzone.cc/avatar/201408/22/21/13/53f741f95904e103.jpg%21200x200.jpg");
+                        friend.setUserName("小四");
+                        friends.add(friend);
+
+                        intent = new Intent(AddFriendsActivity.this, SearchResultActivity.class);
+                        intent.putExtra("searchKey", edt_input.getText().toString().trim());
+                        intent.putExtra("searchVal", friends);
+                        startActivity(intent);
                         break;
                 }
                 super.handleMessage(msg);

@@ -17,10 +17,11 @@ public class Friend implements Serializable, IFilterModel {
     private String usernamePinyin;
     private String portrait; // 头像
     private char searchKey;
-    private String birthday;
-    private String sex;
+    private String birthday;  //yyyy-MM-dd
+    private int sex;    //0 女 1 男 -1 未知
     private String phone;
     private String email;
+    private int address;
     private Resource portraitResource;
     private boolean isSelected = false;
     private boolean isAdd = false;
@@ -124,19 +125,33 @@ public class Friend implements Serializable, IFilterModel {
         this.isAdd = isAdd;
     }
 
+    /**
+     * @return yyyy-MM-dd
+     */
     public String getBirthday() {
         return birthday;
     }
 
+    /**
+     * yyyy-MM-dd
+     * @param birthday
+     */
     public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public String getSex() {
+    /**
+     * @return 0 女 1 男 -1 未知
+     */
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    /**
+     * 0 女 1 男 -1 未知
+     * @param sex
+     */
+    public void setSex(int sex) {
         this.sex = sex;
     }
 
@@ -154,5 +169,13 @@ public class Friend implements Serializable, IFilterModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getAddress() {
+        return address;
+    }
+
+    public void setAddress(int address) {
+        this.address = address;
     }
 }

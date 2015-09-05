@@ -10,38 +10,36 @@ import android.widget.ImageView;
  */
 public interface IDownloader {
 	
-	public void downloadBitmap(String url, ImageView imageView);
+	public void downloadBitmap(String url,  ImageView imageView) ;
 	
-	public void downloadBitmap(String hdUrl, String lowUrl, ImageView imageView) ;
+	public void downloadBitmap(String url,  ImageView imageView, int rid) ;
 	
-	public void downloadBitmap(String hdUrl, String lowUrl, ImageView imageView, int rid) ;
-	
-	public void downloadBitmap(String hdUrl, String lowUrl, ImageView
+	public void downloadBitmap(String url,  ImageView
 			imageView,
 							   int rid,
 							   boolean fadeIn) ;
 	
-	public void downloadBitmap(String hdUrl, String lowUrl,
+	public void downloadBitmap(String url, 
 							   ImageView imageView,
 							   Bitmap defaultBitmap) ;
 	
-	public void downloadBitmap(String hdUrl, String lowUrl,
+	public void downloadBitmap(String url, 
 							   ImageView imageView,
 							   Bitmap defaultBitmap,
 							   IDownloaderCallback callback) ;
 	
-	public void downloadBitmap(String hdUrl, String lowUrl, Object tag,
+	public void downloadBitmap(String url,  Object tag,
 							   ImageView imageView,
 							   Bitmap defaultBitmap,
 							   IDownloaderCallback callback) ;
 	
-	public void downloadBitmap(String hdUrl, String lowUrl,
+	public void downloadBitmap(String url, 
 							   ImageView imageView,
 							   Bitmap defaultBitmap,
 							   IDownloaderCallback callback,
 							   boolean fadeInBitmap) ;
 	
-	public void downloadBitmap(String hdUrl, String lowUrl, Object tag,
+	public void downloadBitmap(String url,  Object tag,
 							   ImageView imageView,
 							   int rid,
 							   IDownloaderCallback callback,
@@ -61,9 +59,6 @@ public interface IDownloader {
 	public void onResume() ;
 	
 	public void onDestory() ;
-	
-	/** wifi 情况下下载高清图片 */
-	public void setDownloadHDImage(boolean downHD);
 	
 	/** 下载状态: 开|关 */
 	public void setState(ImageDownloader.State newState);

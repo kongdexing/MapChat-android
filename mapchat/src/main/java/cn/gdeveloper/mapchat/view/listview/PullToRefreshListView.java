@@ -41,7 +41,7 @@ public abstract class PullToRefreshListView extends ListView implements OnScroll
 	static final int STATE_LOAD						= 1 << 2 ;
 
 	private final static int RATIO 					= 3;
-	private final static String TEXT_PULL			= "下来刷新" ;
+	private final static String TEXT_PULL			= "下拉刷新" ;
 	private final static String TEXT_RELEASE		= "松开刷新" ;
 	private final static String TEXT_DATE_HEADER	= "最近更新:" ;
 	private final static String TEXT_LOADING		= "刷新中..." ;
@@ -75,7 +75,7 @@ public abstract class PullToRefreshListView extends ListView implements OnScroll
 	private boolean isRefreshable;
 	
 	public MapChatHandler mHandler ;
-	protected Context mContext ; //必须是activity的context,不能是APP context
+	protected Context mContext ;
 	private int loadState ;
 
 	public PullToRefreshListView(Context context) {
@@ -146,7 +146,7 @@ public abstract class PullToRefreshListView extends ListView implements OnScroll
 	}
 	
 	protected final void uniteListView(ListView list) {
-		list.setDividerHeight(9);
+		list.setDividerHeight(3);
 		list.setCacheColorHint(Color.TRANSPARENT);
 		list.setDivider(mContext.getResources().getDrawable(R.mipmap.ic_line));
 	}
@@ -198,26 +198,18 @@ public abstract class PullToRefreshListView extends ListView implements OnScroll
 						onRefresh();
 					}
 				}
-
 				isRecored = false;
 				isBack = false;
-
 				break;
-
 			case MotionEvent.ACTION_MOVE:
 				int tempY = (int) event.getY();
-
 				if (!isRecored && firstItemIndex == 0) {
 					isRecored = true;
 					startY = tempY;
 				}
-
 				if (state != REFRESHING && isRecored && state != LOADING) {
-
 					if (state == RELEASE_To_REFRESH) {
-
 						setSelection(0);
-
 						if (((tempY - startY) / RATIO < headContentHeight)
 								&& (tempY - startY) > 0) {
 							state = PULL_To_REFRESH;
@@ -232,9 +224,7 @@ public abstract class PullToRefreshListView extends ListView implements OnScroll
 						}
 					}
 					if (state == PULL_To_REFRESH) {
-
 						setSelection(0);
-
 						if ((tempY - startY) / RATIO >= headContentHeight) {
 							state = RELEASE_To_REFRESH;
 							isBack = true;
