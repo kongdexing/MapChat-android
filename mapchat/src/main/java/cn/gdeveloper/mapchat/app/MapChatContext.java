@@ -18,7 +18,7 @@ import io.rong.imlib.model.UserInfo;
  */
 public class MapChatContext {
 
-    private static MapChatContext mMapChatContext;
+    private static MapChatContext mMapChatContext = new MapChatContext();
     public Context mContext;
     private HashMap<String, Group> groupMap;
     private ArrayList<UserInfo> mUserInfos;
@@ -27,25 +27,15 @@ public class MapChatContext {
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
 
     public static MapChatContext getInstance() {
-        if (mMapChatContext == null) {
-            mMapChatContext = new MapChatContext();
-        }
         return mMapChatContext;
     }
 
-    private MapChatContext() {
-    }
-
-    private MapChatContext(Context context) {
+    public void init(Context context) {
         mContext = context;
         mMapChatContext = this;
         //http初始化 用于登录、注册使用
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         RongIM.setLocationProvider(new LocationProvider());
-    }
-
-    public static void init(Context context) {
-        mMapChatContext = new MapChatContext(context);
     }
 
     public SharedPreferences getSharedPreferences() {

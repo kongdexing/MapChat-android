@@ -14,10 +14,8 @@
             android:id="@+id/de_img_backgroud"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="-50dp"
-            android:layout_marginRight="-300dp"
-            android:scaleType="center"
-            android:src="@mipmap/de_bg" />
+            android:background="@mipmap/de_bg"
+            android:scaleType="fitXY" />
 
     </FrameLayout>
 

@@ -4,7 +4,10 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
-import cn.gdeveloper.mapchat.common.MapChatHttpService;
+import cn.gdeveloper.mapchat.http.impl.MapChatHttpService;
+import cn.gdeveloper.mapchat.message.DeAgreedFriendRequestMessage;
+import cn.gdeveloper.mapchat.message.DeContactNotificationMessageProvider;
+import cn.gdeveloper.mapchat.model.User;
 import io.rong.imkit.RongIM;
 
 public class MapChatApp extends Application {
@@ -22,11 +25,13 @@ public class MapChatApp extends Application {
 //        Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
     }
 
-    private void initApp(){
+    private void initApp() {
         MapChatHttpService.getInstance().init(this);
+        MapChatContext.getInstance().init(this);
+        User.getInstance().init();
     }
 
-    private void initRongIM(){
+    private void initRongIM() {
         /**
          * IMKit SDK调用第一步 初始化
          * context上下文
@@ -37,21 +42,19 @@ public class MapChatApp extends Application {
          */
         RongCloudEvent.init(this);
 
-        MapChatContext.init(this);
-
 //        DeDateContext.init(this);
 
         //注册消息类型的时候判断当前的进程是否在主进程
-//        if ("io.rong.app".equals(getCurProcessName(getApplicationContext()))) {
-//            try {
-//                //注册自定义消息,注册完消息后可以收到自定义消息
-//                RongIM.registerMessageType(DeAgreedFriendRequestMessage.class);
-//                //注册消息模板，注册完消息模板可以在会话列表上展示
-//                RongIM.registerMessageTemplate(new DeContactNotificationMessageProvider());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if ("io.rong.app".equals(getCurProcessName(getApplicationContext()))) {
+            try {
+                //注册自定义消息,注册完消息后可以收到自定义消息
+                RongIM.registerMessageType(DeAgreedFriendRequestMessage.class);
+                //注册消息模板，注册完消息模板可以在会话列表上展示
+                RongIM.registerMessageTemplate(new DeContactNotificationMessageProvider());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

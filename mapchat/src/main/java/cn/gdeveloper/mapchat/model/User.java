@@ -9,14 +9,15 @@ import java.io.Serializable;
 import cn.gdeveloper.mapchat.app.MapChatContext;
 import cn.gdeveloper.mapchat.utils.SharedPreferencesUtil;
 import me.add1.common.ParcelUtils;
+
 /**
  * Entity mapped to table USER.
  */
 public class User implements Parcelable, Serializable {
 
     private String userId;
-    private String loginname;
-    private String passwd;
+    private String loginName;
+    private String password;
     /**
      * 返回码
      */
@@ -27,13 +28,19 @@ public class User implements Parcelable, Serializable {
     private String message;
     private String token;
 
+    private static User mUser = new User();
+
     public User() {
 
     }
 
+    public static User getInstance() {
+        return mUser;
+    }
+
     public User(Parcel in) {
         userId = ParcelUtils.readFromParcel(in);
-        passwd = ParcelUtils.readFromParcel(in);
+        password = ParcelUtils.readFromParcel(in);
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -56,7 +63,14 @@ public class User implements Parcelable, Serializable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         ParcelUtils.writeToParcel(dest, userId);
-        ParcelUtils.writeToParcel(dest, passwd);
+        ParcelUtils.writeToParcel(dest, password);
+    }
+
+    public void init() {
+        userId = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_ID, "");
+        loginName = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_LOGINNAME, "");
+        password = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_PASSWORD, "");
+        token = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_TOKEN, "");
     }
 
     public String getUserId() {
@@ -70,25 +84,25 @@ public class User implements Parcelable, Serializable {
         editor.apply();
     }
 
-    public String getPasswd() {
-        return passwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public void setPassword(String password) {
+        this.password = password;
         SharedPreferences.Editor editor = MapChatContext.getInstance().getSharedPreferences().edit();
-        editor.putString(SharedPreferencesUtil.USER_PASSWORD, passwd);
+        editor.putString(SharedPreferencesUtil.USER_PASSWORD, password);
         editor.apply();
     }
 
-    public String getLoginname() {
-        return loginname;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setLoginname(String loginname) {
-        this.loginname = loginname;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
         SharedPreferences.Editor editor = MapChatContext.getInstance().getSharedPreferences().edit();
-        editor.putString(SharedPreferencesUtil.USER_LOGINNAME, loginname);
+        editor.putString(SharedPreferencesUtil.USER_LOGINNAME, loginName);
         editor.apply();
     }
 

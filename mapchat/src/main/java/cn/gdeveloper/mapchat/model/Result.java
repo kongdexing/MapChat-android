@@ -1,28 +1,24 @@
 package cn.gdeveloper.mapchat.model;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  * 1. code=1 成功, value json字符串
  * 2. code!= 1 失败, value 失败的原因
- * 3. json, 对应的json对象
  */
 public final class Result implements Cloneable {
 
-	private String code;
+	private int code;
 
 	private String value;
-	
-	private JSONObject json ;
-	
-	private JSONArray array ;
 
-	public String getCode() {
+	private JSONObject json ;
+
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 
@@ -42,19 +38,10 @@ public final class Result implements Cloneable {
 		this.json = json;
 	}
 
-	public JSONArray getJSONArray() {
-		return array;
-	}
-
-	public void setJSONArray(JSONArray array) {
-		this.array = array;
-	}
-
 	public void reset() {
-		code 	= "-1";
+		code 	= -1;
 		value 	= "";
 		json  	= null ;
-		array	= null ;
 	}
 
 	public Result cloneResult() {

@@ -1,13 +1,20 @@
 package cn.gdeveloper.mapchat.view.listview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
 import java.util.ArrayList;
 
+import cn.gdeveloper.mapchat.activity.SearchResultActivity;
+import cn.gdeveloper.mapchat.http.impl.MapChatHttpService;
+import cn.gdeveloper.mapchat.http.request.IResponseListener;
+import cn.gdeveloper.mapchat.http.request.MapChatMessageID;
 import cn.gdeveloper.mapchat.model.Friend;
+import cn.gdeveloper.mapchat.ui.WinToast;
 import cn.gdeveloper.mapchat.view.adapter.SearchResultAdapter;
 
 /**
@@ -31,14 +38,6 @@ public class SearchResultListView extends PullToRefreshListView implements
         uniteListView(this);
 
         setOverScrollMode(View.OVER_SCROLL_NEVER);
-        setonRefreshListener(new OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                onClear();
-                onReload();
-            }
-        });
         setIdleState();
     }
 
@@ -62,8 +61,13 @@ public class SearchResultListView extends PullToRefreshListView implements
         list_searchFriends.clear();
     }
 
+    public void resetAllState() {
+        setIdleState();
+        onRefreshComplete();
+    }
+
     @Override
     public void onReload() {
-
     }
+
 }

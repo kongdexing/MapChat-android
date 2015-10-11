@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import cn.gdeveloper.mapchat.activity.MainActivity;
+import cn.gdeveloper.mapchat.message.DeAgreedFriendRequestMessage;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
 import io.rong.imlib.RongIMClient;
@@ -30,7 +33,7 @@ import io.rong.message.VoiceMessage;
 /**
  * 融云SDK事件监听处理。
  * 把事件统一处理，开发者可直接复制到自己的项目中去使用。
- * <p/>
+ * <p>
  * 该类包含的监听事件有：
  * 1、消息接收器：OnReceiveMessageListener。
  * 2、发出消息接收器：OnSendMessageListener。
@@ -134,13 +137,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         } else if (messageContent instanceof InformationNotificationMessage) {//小灰条消息
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
-        }
-//        else if (messageContent instanceof DeAgreedFriendRequestMessage) {//好友添加成功消息
-//            DeAgreedFriendRequestMessage deAgreedFriendRequestMessage = (DeAgreedFriendRequestMessage) messageContent;
-//            Log.d(TAG, "onReceived-deAgreedFriendRequestMessage:" + deAgreedFriendRequestMessage.getMessage());
-//            reciverAgreeSuccess(deAgreedFriendRequestMessage);
-//        }
-        else if (messageContent instanceof ContactNotificationMessage) {//好友添加消息
+        } else if (messageContent instanceof DeAgreedFriendRequestMessage) {//好友添加成功消息
+            DeAgreedFriendRequestMessage deAgreedFriendRequestMessage = (DeAgreedFriendRequestMessage) messageContent;
+            Log.d(TAG, "onReceived-deAgreedFriendRequestMessage:" + deAgreedFriendRequestMessage.getMessage());
+            reciverAgreeSuccess(deAgreedFriendRequestMessage);
+        } else if (messageContent instanceof ContactNotificationMessage) {//好友添加消息
             ContactNotificationMessage contactContentMessage = (ContactNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-ContactNotificationMessage:getExtra;" + contactContentMessage.getExtra());
             Log.d(TAG, "onReceived-ContactNotificationMessage:+getmessage:" + contactContentMessage.getMessage().toString());
@@ -163,21 +164,21 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      *
      * @param deAgreedFriendRequestMessage
      */
-//    private void reciverAgreeSuccess(DeAgreedFriendRequestMessage deAgreedFriendRequestMessage) {
-//        ArrayList<UserInfo> friendreslist = new ArrayList<UserInfo>();
-//        if (MapChatContext.getInstance() != null) {
-//            friendreslist = MapChatContext.getInstance().getFriends();
-//            //接收到的这条消息的消息体里面有 userinfo，直接调用就可以
-//            friendreslist.add(deAgreedFriendRequestMessage.getUserInfo());
-//            //将此userinfo 添加到好友列表
-//            MapChatContext.getInstance().setFriends(friendreslist);
-//        }
-//        //发送广播，提示更新 UI
-//        Intent in = new Intent();
-//        in.setAction(MainActivity.ACTION_DMEO_AGREE_REQUEST);
-//        in.putExtra("AGREE_REQUEST", true);
-//        mContext.sendBroadcast(in);
-//    }
+    private void reciverAgreeSuccess(DeAgreedFriendRequestMessage deAgreedFriendRequestMessage) {
+        ArrayList<UserInfo> friendreslist = new ArrayList<UserInfo>();
+        if (MapChatContext.getInstance() != null) {
+            friendreslist = MapChatContext.getInstance().getFriends();
+            //接收到的这条消息的消息体里面有 userinfo，直接调用就可以
+            friendreslist.add(deAgreedFriendRequestMessage.getUserInfo());
+            //将此userinfo 添加到好友列表
+            MapChatContext.getInstance().setFriends(friendreslist);
+        }
+        //发送广播，提示更新 UI
+        Intent in = new Intent();
+        in.setAction(MainActivity.ACTION_DMEO_AGREE_REQUEST);
+        in.putExtra("AGREE_REQUEST", true);
+        mContext.sendBroadcast(in);
+    }
 
 
     /**
@@ -266,7 +267,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
 
-
     @Override
     public boolean onMessageLongClick(Context context, View view, Message message) {
         return false;
@@ -281,7 +281,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     public boolean onConversationItemClick(Context context, View view, UIConversation uiConversation) {
         return false;
     }
-
 
 
     /**
@@ -319,8 +318,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         return false;
     }
-
-
 
 
     /**

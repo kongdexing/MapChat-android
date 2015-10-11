@@ -8,13 +8,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import cn.gdeveloper.mapchat.R;
-
 import java.util.ArrayList;
 
-import cn.gdeveloper.mapchat.common.MapChatHttpService;
+import cn.gdeveloper.mapchat.R;
 import cn.gdeveloper.mapchat.http.download.IDownloader;
+import cn.gdeveloper.mapchat.http.impl.MapChatHttpService;
+import cn.gdeveloper.mapchat.http.request.IResponseListener;
+import cn.gdeveloper.mapchat.http.request.MapChatMessageID;
 import cn.gdeveloper.mapchat.model.Friend;
+import cn.gdeveloper.mapchat.model.User;
 import cn.gdeveloper.mapchat.ui.WinToast;
 import cn.gdeveloper.mapchat.utils.DateUtils;
 
@@ -65,10 +67,12 @@ public class SearchResultAdapter extends BaseMapChatAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.txt_location.setVisibility(View.GONE);
+
         final IDownloader downloader = MapChatHttpService.getInstance().getDownloader();
         final Friend friend = getItem(position);
         if (friend != null) {
-            downloader.downloadBitmap(friend.getPortrait(), viewHolder.img_user);
+            downloader.downloadBitmap(friend.getPortrait(), viewHolder.img_user, R.mipmap.user_def);
             viewHolder.txt_username.setText(friend.getUserName());
             viewHolder.txt_age.setText(DateUtils.getAge(friend.getBirthday()));
             //0 女 1 男 -1 未知
@@ -83,8 +87,26 @@ public class SearchResultAdapter extends BaseMapChatAdapter {
             }
             viewHolder.btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    WinToast.toast(mContext,"click "+friend.getUserName());
+                public void onClick(final View view) {
+                    MapChatHttpService.getInstance().addFriend(User.getInstance().getUserId(), friend.getID(), "", new IResponseListener() {
+                        @Override
+                        public void onStart() {
+                            view.setEnabled(false);
+                        }
+
+                        @Override
+                        public void onRequestResponse(int code, Object value) {
+                            view.setEnabled(true);
+                            switch (code) {
+                                case MapChatMessageID.MSG_ADDFRIEND_SUCCESS:
+                                    WinToast.toast(mContext, "add success ");
+                                    break;
+                                default:
+                                    WinToast.toast(mContext, "add failed ");
+                                    break;
+                            }
+                        }
+                    });
                 }
             });
         }

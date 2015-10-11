@@ -10,8 +10,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -25,9 +23,9 @@ import java.util.List;
 import cn.gdeveloper.mapchat.R;
 import cn.gdeveloper.mapchat.app.MapChatContext;
 import cn.gdeveloper.mapchat.app.RongCloudEvent;
-import cn.gdeveloper.mapchat.common.MapChatHttpService;
-import cn.gdeveloper.mapchat.http.MapChatMessageID;
-import cn.gdeveloper.mapchat.http.WebResponse;
+import cn.gdeveloper.mapchat.http.impl.MapChatHttpService;
+import cn.gdeveloper.mapchat.http.request.IResponseListener;
+import cn.gdeveloper.mapchat.http.request.MapChatMessageID;
 import cn.gdeveloper.mapchat.model.ApiResult;
 import cn.gdeveloper.mapchat.model.Friends;
 import cn.gdeveloper.mapchat.model.Groups;
@@ -107,7 +105,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private Handler mHandler;
     private List<User> mUserList;
     private List<ApiResult> mResultList;
-    private ImageView mImgBackgroud;
     DeEditTextHolder mEditUserNameEt;
     DeEditTextHolder mEditPassWordEt;
     private RelativeLayout rl_login_parent;
@@ -127,7 +124,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mSignInBt = (Button) findViewById(R.id.app_sign_in_bt);
         mRegister = (TextView) findViewById(R.id.de_login_register);
         mFogotPassWord = (TextView) findViewById(R.id.de_login_forgot);
-        mImgBackgroud = (ImageView) findViewById(R.id.de_img_backgroud);
         mFrUserNameDelete = (FrameLayout) findViewById(R.id.fr_username_delete);
         mFrPasswordDelete = (FrameLayout) findViewById(R.id.fr_pass_delete);
         mIsShowTitle = (RelativeLayout) findViewById(R.id.de_merge_rel);
@@ -161,13 +157,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mEditUserNameEt = new DeEditTextHolder(mUserNameEt, mFrUserNameDelete, null);
         mEditPassWordEt = new DeEditTextHolder(mPassWordEt, mFrPasswordDelete, null);
 
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.translate_anim);
-                mImgBackgroud.startAnimation(animation);
-            }
-        });
     }
 
     @Override
@@ -198,18 +187,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
-            case MapChatMessageID.MSG_MEMBER_LOGIN_SUCCESS:
-                hideDialog();
-                WinToast.toast(LoginActivity.this, R.string.login_success);
-                RongIM.getInstance().setUserInfoAttachedState(true);
-//                RongCloudEvent.getInstance().setOtherListener();
-                startActivity(new Intent(this, MyActivity.class));
-                finish();
-                break;
-            case MapChatMessageID.MSG_MEMBER_LOGIN_FAILED:
-                hideDialog();
-                WinToast.toast(LoginActivity.this, R.string.login_failure);
-                break;
             case HANDLER_LOGIN_HAS_FOCUS:
                 mLoginImg.setVisibility(View.GONE);
                 mRegister.setVisibility(View.GONE);
@@ -238,8 +215,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     WinToast.toast(this, R.string.login_erro_is_null);
                     return;
                 }
-                showDialog();
-                MapChatHttpService.getInstance().login(userName, passWord, new WebResponse(mHandler));
+                MapChatHttpService.getInstance().login(userName, passWord, new ResponseListener());
                 break;
             case R.id.de_left://注册
             case R.id.de_login_register://注册
@@ -272,132 +248,62 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    private void httpGetTokenSuccess(String token) {
-        try {
-            /**
-             * IMKit SDK调用第二步
-             * 建立与服务器的连接
-             * 详见API
-             * http://docs.rongcloud.cn/api/android/imkit/index.html
-             */
-            Log.e("LoginActivity", "---------onSuccess gettoken----------:" + token);
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-                @Override
-                public void onSuccess(String userId) {
-                    Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-//                    getUserInfoHttpRequest = MapChatContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
-                    SharedPreferences.Editor edit = MapChatContext.getInstance().getSharedPreferences().edit();
-                    edit.putString(SharedPreferencesUtil.USER_ID, userId);
-                    edit.apply();
-                    RongIM.getInstance().setUserInfoAttachedState(true);
-                    RongCloudEvent.getInstance().setOtherListener();
-                }
+    private class ResponseListener implements IResponseListener {
 
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-//                    mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
-                    Log.e("LoginActivity", "---------onError ----------:" + errorCode);
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        @Override
+        public void onStart() {
+            showDialog();
         }
-        //发起获取好友列表的http请求  (注：非融云SDK接口，是demo接口)
-        if (MapChatContext.getInstance() != null) {
-//                getFriendsHttpRequest = MapChatContext.getInstance().getDemoApi().getNewFriendlist(LoginActivity.this);
-//            mGetMyGroupsRequest = MapChatContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
+
+        @Override
+        public void onRequestResponse(int code, Object value) {
+            switch (code) {
+                case MapChatMessageID.MSG_MEMBER_LOGIN_SUCCESS:
+                    Log.i(TAG, "login success userid :" + User.getInstance().getUserId());
+                    httpGetTokenSuccess(User.getInstance().getToken());
+                    break;
+                case MapChatMessageID.MSG_MEMBER_LOGIN_FAILED:
+                    hideDialog();
+                    WinToast.toast(LoginActivity.this, R.string.login_failure);
+                    break;
+                default:
+                    WinToast.toast(LoginActivity.this, value.toString());
+                    break;
+            }
         }
     }
 
-//    @Override
-//    public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-//        //登录成功  返回数据
-//        if (loginHttpRequest.equals(request)) {
-//            if (obj instanceof User) {
-//                final User user = (User) obj;
-//                if (user.getCode() == 200) {
-//                    if (MapChatContext.getInstance() != null && user.getResult() != null) {
-//                        SharedPreferences.Editor edit = MapChatContext.getInstance().getSharedPreferences().edit();
-//                        edit.putString("DEMO_USER_ID", user.getResult().getId());
-//                        edit.putString("DEMO_USER_NAME", user.getResult().getUsername());
-//                        edit.putString("DEMO_USER_PORTRAIT", user.getResult().getPortrait());
-//                        edit.apply();
-//                        Log.e(TAG, "-------login success------");
-//                        httpLoginSuccess(user, true);
-//                    }
-//                } else if (user.getCode() == 103) {
-//                    hideDialog();
-//                    WinToast.toast(LoginActivity.this, "密码错误");
-//                } else if (user.getCode() == 104) {
-//                    if (mDialog != null)
-//                        mDialog.dismiss();
-//                    WinToast.toast(LoginActivity.this, "账号错误");
-//                }
-//            }
-//        } else if (getTokenHttpRequest.equals(request)) {
-//            if (obj instanceof User) {
-//                final User user = (User) obj;
-//                if (user.getCode() == 200) {
-//                    httpGetTokenSuccess(user.getResult().getToken());
-//                    SharedPreferences.Editor edit = MapChatContext.getInstance().getSharedPreferences().edit();
-//                    edit.putString("DEMO_TOKEN", user.getResult().getToken());
-//                    edit.apply();
-//                    Log.e(TAG, "------getTokenHttpRequest -success--" + user.getResult().getToken());
-//                } else if (user.getCode() == 110) {
-//                    WinToast.toast(LoginActivity.this, user.getMessage());
-//                } else if (user.getCode() == 111) {
-//                    WinToast.toast(LoginActivity.this, user.getMessage());
-//                }
-//            }
-//        } else if (mGetMyGroupsRequest.equals(request)) {
-//            if (obj instanceof Groups) {
-//                final Groups groups = (Groups) obj;
-//                if (groups.getCode() == 200) {
-//                    List<Group> grouplist = new ArrayList<>();
-//                    if (groups.getResult() != null) {
-//                        for (int i = 0; i < groups.getResult().size(); i++) {
-//                            String id = groups.getResult().get(i).getId();
-//                            String name = groups.getResult().get(i).getName();
-//                            if (groups.getResult().get(i).getPortrait() != null) {
-//                                Uri uri = Uri.parse(groups.getResult().get(i).getPortrait());
-//                                grouplist.add(new Group(id, name, uri));
-//                            } else {
-//                                grouplist.add(new Group(id, name, null));
-//                            }
-//                        }
-//                        HashMap<String, Group> groupM = new HashMap<String, Group>();
-//                        for (int i = 0; i < grouplist.size(); i++) {
-//                            groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
-//                            Log.e("login", "------get Group id---------" + groups.getResult().get(i).getId());
-//                        }
-//                        if (MapChatContext.getInstance() != null)
-//                            MapChatContext.getInstance().setGroupMap(groupM);
-//                    }
-//                } else {
-////                    WinToast.toast(this, groups.getCode());
-//                }
-//            }
-//        } else if (getUserInfoHttpRequest.equals(request)) {
-//            //获取好友列表接口  返回好友数据  (注：非融云SDK接口，是demo接口)
-//            if (obj instanceof Friends) {
-//                final Friends friends = (Friends) obj;
-//                if (friends.getCode() == 200) {
-//                    ArrayList<UserInfo> friendResults = new ArrayList<UserInfo>();
-//                    for (int i = 0; i < friends.getResult().size(); i++) {
-//                        UserInfo info = new UserInfo(String.valueOf(friends.getResult().get(i).getId()), friends.getResult().get(i).getUsername(), friends.getResult().get(i).getPortrait() == null ? null : Uri.parse(friends.getResult().get(i).getPortrait()));
-//                        friendResults.add(info);
-//                    }
-//                    friendResults.add(new UserInfo("10000", "新好友消息", Uri.parse("test")));
-//                    friendResults.add(new UserInfo("kefu114", "客服11", Uri.parse("http://jdd.kefu.rongcloud.cn/image/service_80x80.png")));
-//                    if (MapChatContext.getInstance() != null)
-//                        //将数据提供给用户信息提供者
-//                        MapChatContext.getInstance().setUserInfos(friendResults);
-////                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
-//                }
-//            }
-//        }
-//    }
+    private void httpGetTokenSuccess(String token) {
+        /**
+         * IMKit SDK调用第二步
+         * 建立与服务器的连接
+         * 详见API
+         * http://docs.rongcloud.cn/api/android/imkit/index.html
+         */
+        Log.i(TAG, "token:" + token);
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+            @Override
+            public void onSuccess(String userId) {
+                Log.e(TAG, "onSuccess userId:" + userId);
+                WinToast.toast(LoginActivity.this, R.string.login_success);
+
+                RongIM.getInstance().setUserInfoAttachedState(true);
+                RongCloudEvent.getInstance().setOtherListener();
+
+                startActivity(new Intent(LoginActivity.this, MyActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.e(TAG, "onError :" + errorCode);
+                WinToast.toast(LoginActivity.this, R.string.login_failure);
+            }
+        });
+
+        //发起获取好友列表的http请求  (注：非融云SDK接口，是demo接口)
+    }
 
     @Override
     protected void onStop() {

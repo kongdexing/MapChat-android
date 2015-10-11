@@ -2,58 +2,55 @@ package cn.gdeveloper.mapchat.common;
 
 import java.util.HashMap;
 
-/**
- * 卡多拉业务操作状态码
- */
 public final class StatusCode {
 
-	public static final String CODE_0 		= "0" ;
+	public static final int CODE_0 		= 0 ;
 	/** 成功 */
-	public static final String CODE_1 		= "1" ;
-	public static final String CODE_2 		= "2" ;
-	public static final String CODE_3 		= "3" ;
+	public static final int CODE_1 		= 1 ;
+	public static final int CODE_2 		= 2 ;
+	public static final int CODE_3 		= 3 ;
 
-	public static final String CODE_100 	= "100" ;
-	public static final String CODE_101 	= "101" ;
-	public static final String CODE_102 	= "102" ;
-	public static final String CODE_103 	= "103" ;
-	public static final String CODE_104 	= "104" ;
-	public static final String CODE_105 	= "105" ;
-	public static final String CODE_106 	= "106" ;
-	public static final String CODE_107 	= "107" ;
+	public static final int CODE_100 	= 100 ;
+	public static final int CODE_101 	= 101 ;
+	public static final int CODE_102 	= 102 ;
+	public static final int CODE_103 	= 103 ;
+	public static final int CODE_104 	= 104 ;
+	public static final int CODE_105 	= 105 ;
+	public static final int CODE_106 	= 106 ;
+	public static final int CODE_107 	= 107 ;
 
-	public static final String CODE_200 	= "200" ;
-	public static final String CODE_201	 	= "201" ;
-	public static final String CODE_202 	= "202" ;
-	public static final String CODE_203 	= "203" ;
-	public static final String CODE_204 	= "204" ;
-	public static final String CODE_205 	= "205" ;
-	public static final String CODE_206 	= "206" ;
-	public static final String CODE_207 	= "207" ;
+	public static final int CODE_200 	= 200 ;
+	public static final int CODE_201	 	= 201 ;
+	public static final int CODE_202 	= 202 ;
+	public static final int CODE_203 	= 203 ;
+	public static final int CODE_204 	= 204 ;
+	public static final int CODE_205 	= 205 ;
+	public static final int CODE_206 	= 206 ;
+	public static final int CODE_207 	= 207 ;
 
-	public static final String CODE_300 	= "300" ;
-	public static final String CODE_301 	= "301" ;
-	public static final String CODE_302 	= "302" ;
-	public static final String CODE_303 	= "303" ;
+	public static final int CODE_300 	= 300 ;
+	public static final int CODE_301 	= 301 ;
+	public static final int CODE_302 	= 302 ;
+	public static final int CODE_303 	= 303 ;
 
-	public static final String CODE_400 	= "400" ;
-	public static final String CODE_401 	= "401" ;
-	public static final String CODE_402 	= "402" ;
-	public static final String CODE_403 	= "403" ;
+	public static final int CODE_400 	= 400 ;
+	public static final int CODE_401 	= 401 ;
+	public static final int CODE_402 	= 402 ;
+	public static final int CODE_403 	= 403 ;
 
-	public static final String CODE_500 	= "500" ;
-	public static final String CODE_501 	= "501" ;
-	public static final String CODE_502 	= "503" ;
+	public static final int CODE_500 	= 500 ;
+	public static final int CODE_501 	= 501 ;
+	public static final int CODE_502 	= 503 ;
 
-	public static final String CODE_600 	= "600" ;
-	public static final String CODE_601 	= "601" ;
-	public static final String CODE_602 	= "602" ;
+	public static final int CODE_600 	= 600 ;
+	public static final int CODE_601 	= 601 ;
+	public static final int CODE_602 	= 602 ;
 
-	public static final String CODE_700 	= "700" ;
-	public static final String CODE_701 	= "701" ;
-	public static final String CODE_702 	= "702" ;
+	public static final int CODE_700 	= 700 ;
+	public static final int CODE_701 	= 701 ;
+	public static final int CODE_702 	= 702 ;
 
-	public static final HashMap<String, String> StatusMsg = new HashMap<String, String>() ;
+	public static final HashMap<Integer, String> StatusMsg = new HashMap<Integer, String>() ;
 	
 	static {
 		

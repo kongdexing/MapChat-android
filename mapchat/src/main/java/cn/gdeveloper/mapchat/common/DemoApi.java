@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.gdeveloper.mapchat.app.MapChatContext;
+import cn.gdeveloper.mapchat.http.impl.HttpHost;
 import cn.gdeveloper.mapchat.model.Friends;
 import cn.gdeveloper.mapchat.model.Groups;
 import cn.gdeveloper.mapchat.model.Status;

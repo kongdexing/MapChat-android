@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.gdeveloper.mapchat" >
+    package="cn.gdeveloper.mapchat">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -31,17 +31,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <meta-data
-            android:name="RONG_CLOUD_APP_KEY"
-            android:value="cpj2xarlj5k2n" />
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="018aa6cb81a515c1fcd9d86acc8968af" />
 
         <activity
             android:name=".activity.LogoActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -69,9 +66,106 @@
         <activity
             android:name=".activity.BaseActionBarActivity"
             android:label="@string/title_activity_base_action_bar" />
+        <activity android:name=".activity.SearchResultActivity"></activity>
+
+
+        <!--begin rongcloud-->
         <activity
-            android:name=".activity.SearchResultActivity" >
+            android:name="io.rong.voipkit.activity.CallSideActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="io.rong.app"
+                    android:pathPrefix="/VoIPCall"
+                    android:scheme="rong" />
+            </intent-filter>
         </activity>
+
+        <activity
+            android:name="io.rong.voipkit.activity.CalledSideActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="io.rong.app"
+                    android:pathPrefix="/VoIPAccept"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="io.rong.push.PushService"
+            android:process="io.rong.push">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="io.rong.push" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="io.rong.push.CommandService"
+            android:process="io.rong.push">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="io.rong.command" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="io.rong.push.PushReceiver"
+            android:process="io.rong.push">
+            <intent-filter>
+                <action android:name="io.rong.imlib.action.push.heartbeat" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="io.rong.imlib.HeartbeatReceiver"
+            android:process=":ipc" />
+
+        <activity
+            android:name="io.rong.imkit.tools.SelectPictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.tools.PreviewPictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.tools.RongWebviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.widget.provider.TakingPicturesActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name="io.rong.imlib.ipc.RongService"
+            android:process=":ipc"></service>
+        <service android:name="io.rong.imlib.ReConnectService" />
+
+        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver">
+            <intent-filter>
+                <action android:name="io.rong.push.message" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="cpj2xarlj5k2n" />
+        <!--end rongcloud-->
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package cn.gdeveloper.mapchat.view.listview;
 
 import java.util.Date;
-import java.util.logging.Handler;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -23,7 +22,7 @@ import android.widget.TextView;
 
 import cn.gdeveloper.mapchat.R;
 import cn.gdeveloper.mapchat.common.MapChatHandler;
-import cn.gdeveloper.mapchat.common.MapChatHttpService;
+import cn.gdeveloper.mapchat.http.impl.MapChatHttpService;
 
 /**
  * 下拉刷新

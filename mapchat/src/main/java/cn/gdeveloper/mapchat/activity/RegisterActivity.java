@@ -17,9 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.gdeveloper.mapchat.R;
-import cn.gdeveloper.mapchat.common.MapChatHttpService;
-import cn.gdeveloper.mapchat.http.MapChatMessageID;
-import cn.gdeveloper.mapchat.http.WebResponse;
+import cn.gdeveloper.mapchat.http.impl.MapChatHttpService;
+import cn.gdeveloper.mapchat.http.request.IResponseListener;
+import cn.gdeveloper.mapchat.http.request.MapChatMessageID;
 import cn.gdeveloper.mapchat.model.Status;
 import cn.gdeveloper.mapchat.ui.DeEditTextHolder;
 import cn.gdeveloper.mapchat.ui.LoadingDialog;
@@ -47,7 +47,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private FrameLayout mPasswordDeleteFramelayout;
     private FrameLayout mNickNameDeleteFramelayout;
 
-    private ImageView mImgBackgroud;
     DeEditTextHolder mEditUserNameEt;
     DeEditTextHolder mEditPhoneEt;
     DeEditTextHolder mEditPassWordEt;
@@ -76,7 +75,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mRegistNickName = (EditText) findViewById(R.id.et_register_nickname);
         mRegisteUserAgreement = (TextView) findViewById(R.id.register_user_agreement);
         mRegisteButton = (Button) findViewById(R.id.register_agree_button);
-        mImgBackgroud = (ImageView) findViewById(R.id.de_img_backgroud);
         mIsShowTitle = (LinearLayout) findViewById(R.id.de_regist_title);
         mEmailDeleteFramelayout = (FrameLayout) findViewById(R.id.et_register_delete);
         mPhoneDeleteFramelayout = (FrameLayout) findViewById(R.id.et_phone_delete);
@@ -84,13 +82,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mNickNameDeleteFramelayout = (FrameLayout) findViewById(R.id.et_nickname_delete);
         mDialog = new LoadingDialog(this);
         mHandler = new Handler(this);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Animation animation = AnimationUtils.loadAnimation(RegisterActivity.this, R.anim.translate_anim);
-                mImgBackgroud.startAnimation(animation);
-            }
-        });
 
         rl_root_parent = (RelativeLayout)findViewById(R.id.rl_root_parent);
         rl_root_parent.getRootView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -116,7 +107,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mEditPhoneEt = new DeEditTextHolder(mRegistPhone,mPhoneDeleteFramelayout,null);
         mEditNickNameEt = new DeEditTextHolder(mRegistNickName, mNickNameDeleteFramelayout, null);
         mEditPassWordEt = new DeEditTextHolder(mRegistPassword, mPasswordDeleteFramelayout, null);
-
     }
 
     @Override
@@ -127,14 +117,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 break;
             case HANDLER_REGIST_HAS_FOCUS:
                 mIsShowTitle.setVisibility(View.GONE);
-                break;
-            case MapChatMessageID.MSG_MEMBER_REGISTER_SUCCESS:
-
-                break;
-            case MapChatMessageID.MSG_MEMBER_REGISTER_FAILED:
-                if (mDialog != null && mDialog.isShowing()) {
-                    mDialog.hide();
-                }
                 break;
         }
         return false;
@@ -159,12 +141,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     WinToast.toast(this, R.string.register_phone_error);
                     return;
                 }
-                MapChatHttpService.getInstance().register(email,nickName,phone,password,new WebResponse(mHandler));
-//                if (MapChatContext.getInstance() != null)
-//                    httpRequest = MapChatContext.getInstance().getDemoApi().register(email, nickName, phone, password, this);
-                if (mDialog != null && !mDialog.isShowing()) {
-                    mDialog.show();
-                }
+                MapChatHttpService.getInstance().register(email,nickName,phone,password,new ResponseListener());
                 break;
             case R.id.register_user_agreement://用户协议
 
@@ -175,6 +152,30 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case R.id.de_right://忘记密码
                 WinToast.toast(this,"忘记密码");
                 break;
+        }
+    }
+
+    private class ResponseListener implements IResponseListener {
+
+        @Override
+        public void onStart() {
+            if (mDialog != null && !mDialog.isShowing()) {
+                mDialog.show();
+            }
+        }
+
+        @Override
+        public void onRequestResponse(int code, Object value) {
+            switch (code) {
+                case MapChatMessageID.MSG_MEMBER_REGISTER_SUCCESS:
+
+                    break;
+                case MapChatMessageID.MSG_MEMBER_REGISTER_FAILED:
+                    if (mDialog != null && mDialog.isShowing()) {
+                        mDialog.hide();
+                    }
+                    break;
+            }
         }
     }
 

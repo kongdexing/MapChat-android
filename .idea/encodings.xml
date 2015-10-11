@@ -5,19 +5,34 @@
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/activity/LoginActivity.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/activity/MyActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/fragment/BaseFragment.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/http/impl/BaseProxy.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/http/request/BaseHttpRequestParameters.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/http/request/HttpRequest.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/http/request/HttpRequestHelper.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/http/request/HttpRequestThread.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/http/request/IResponseListener.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/http/request/RequestListener.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/message/DeAgreedFriendRequestMessage.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/message/DeAgreedFriendRequestMessageProvider.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/message/DeContactNotificationMessageProvider.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/Button.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/FloatingActionButtonL.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/LoadingView.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/ShapeLoadingView.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/viewpagerindicator/IconPagerAdapter.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/viewpagerindicator/IconTabPageIndicator.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/java/cn/gdeveloper/mapchat/view/viewpagerindicator/PageIndicator.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/color" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/aa_dialog_bg.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/fab.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/shadow.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/tab_record_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/tab_setting_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/tab_user_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/drawable/top_map_selector.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/layout/activity_my.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/layout/fragment.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/mapchat/src/main/res/layout/load_view.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/icon_record_normal.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/icon_record_pressed.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/mapchat/src/main/res/mipmap-hdpi/plus.png" charset="GBK" />
