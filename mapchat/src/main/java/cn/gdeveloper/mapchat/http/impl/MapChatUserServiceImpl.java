@@ -16,6 +16,7 @@ import cn.gdeveloper.mapchat.http.request.RequestListener;
 import cn.gdeveloper.mapchat.model.Friend;
 import cn.gdeveloper.mapchat.model.Result;
 import cn.gdeveloper.mapchat.model.User;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Administrator on 2015/7/5.
@@ -85,6 +86,7 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
                                 User.getInstance().setToken(json.getString("token"));
                                 User.getInstance().setLoginName(loginName);
                                 User.getInstance().setPassword(password);
+                                User.getInstance().setLoginState(true);
                                 if (listener != null) {
                                     listener.onRequestResponse(MSG_MEMBER_LOGIN_SUCCESS, null);
                                 }
@@ -113,7 +115,7 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
     public void search(String searchKey, final IResponseListener listener) {
         final StringBuilder url = new StringBuilder(256);
         url.append(HttpHost.HOST + HttpHost.SEARCH);
-        url.append("/" + searchKey);
+        url.append("/" + searchKey+"/"+ User.getInstance().getUserId());
 
         HttpRequestHelper.getInstance().sendHttpGetRequest(url.toString(), null, new RequestListener(listener) {
             @Override
@@ -136,6 +138,7 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
                                     friend.setPortrait(obj.getString("portrait"));
                                     friend.setBirthday(obj.getString("birthday"));
                                     friend.setSex(obj.getInt("sex"));
+                                    friend.setFriendState(obj.getInt("friendState"));
                                     list_friend.add(friend);
                                 }
                                 if (listener != null) {
@@ -166,7 +169,6 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
     @Override
     public void addFriend(String fromId, String toId, String content, final IResponseListener listener) {
         String param = null;
-
         try {
             JSONObject json = new JSONObject();
             json.put("FromUserID", fromId);
@@ -201,5 +203,10 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
                 }
             }
         });
+    }
+
+    @Override
+    public void deleteFriendRequest(String toId, IResponseListener listener) {
+
     }
 }

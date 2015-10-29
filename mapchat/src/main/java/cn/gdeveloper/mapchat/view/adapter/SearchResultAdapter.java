@@ -63,6 +63,7 @@ public class SearchResultAdapter extends BaseMapChatAdapter {
             viewHolder.txt_age = (TextView) convertView.findViewById(R.id.txt_age);
             viewHolder.txt_location = (TextView) convertView.findViewById(R.id.txt_location);
             viewHolder.btn_add = (Button) convertView.findViewById(R.id.btn_send);
+            viewHolder.btn_cancel = (Button) convertView.findViewById(R.id.btn_cancel);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -85,6 +86,19 @@ public class SearchResultAdapter extends BaseMapChatAdapter {
             } else {
                 viewHolder.img_sex.setBackgroundResource(0);
             }
+
+            if (friend.getFriendState()==Friend.STATE_FRIEND){
+                viewHolder.btn_add.setVisibility(View.GONE);
+                viewHolder.btn_cancel.setVisibility(View.GONE);
+            }else if(friend.getFriendState()==Friend.STATE_SENDED){
+                viewHolder.btn_add.setVisibility(View.VISIBLE);
+                viewHolder.btn_cancel.setVisibility(View.VISIBLE);
+                viewHolder.btn_add.setText(R.string.public_added);
+            }else if(friend.getFriendState()==Friend.STATE_UNSEND){
+                viewHolder.btn_add.setVisibility(View.VISIBLE);
+                viewHolder.btn_cancel.setVisibility(View.GONE);
+            }
+
             viewHolder.btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
@@ -109,6 +123,13 @@ public class SearchResultAdapter extends BaseMapChatAdapter {
                     });
                 }
             });
+
+            viewHolder.btn_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
         return convertView;
     }
@@ -121,6 +142,7 @@ public class SearchResultAdapter extends BaseMapChatAdapter {
         TextView txt_age;
         TextView txt_location;
         Button btn_add;
+        Button btn_cancel;
     }
 
 }

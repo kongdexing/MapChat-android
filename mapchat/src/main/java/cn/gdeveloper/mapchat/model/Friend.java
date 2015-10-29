@@ -25,6 +25,11 @@ public class Friend implements Serializable, IFilterModel {
     private Resource portraitResource;
     private boolean isSelected = false;
     private boolean isAdd = false;
+    //1，已发送请求，0 未发送请求 2 已经是好友
+    private int friendState  = 0;
+    public static final int STATE_SENDED = 1;
+    public static final int STATE_UNSEND = 0;
+    public static final int STATE_FRIEND = 2;
 
     public Friend() {
 
@@ -177,5 +182,13 @@ public class Friend implements Serializable, IFilterModel {
 
     public void setAddress(int address) {
         this.address = address;
+    }
+
+    public int getFriendState() {
+        return friendState;
+    }
+
+    public void setFriendState(int friendState) {
+        this.friendState = friendState;
     }
 }

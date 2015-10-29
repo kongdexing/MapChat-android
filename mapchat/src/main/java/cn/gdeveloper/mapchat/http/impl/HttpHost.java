@@ -5,7 +5,7 @@ package cn.gdeveloper.mapchat.http.impl;
  */
 public class HttpHost {
 
-    public static String HOST = "http://192.168.1.116:8083/";
+    public static String HOST = "http://192.168.199.223:8088/";
 //    private static String   HOST = "http://webim.demo.rong.io/";
 
     public final static String LOGIN = "UserService/Login";

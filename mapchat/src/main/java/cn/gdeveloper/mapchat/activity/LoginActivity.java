@@ -43,7 +43,7 @@ import me.add1.network.AbstractHttpRequest;
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener, Handler.Callback {
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = LoginActivity.class.getSimpleName();
     /**
      * 用户账户
      */
@@ -161,12 +161,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initData() {
-        if (MapChatContext.getInstance() != null) {
-            String email = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_EMAIL, "");
-            String password = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_PASSWORD, "");
-            mUserNameEt.setText(email);
-            mPassWordEt.setText(password);
-        }
+        mUserNameEt.setText(User.getInstance().getLoginName());
+        mPassWordEt.setText(User.getInstance().getPassword());
 
         TelephonyManager mTelephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         mDeviceId = mTelephonyManager.getDeviceId();
@@ -215,6 +211,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     WinToast.toast(this, R.string.login_erro_is_null);
                     return;
                 }
+                User.getInstance().setLoginName(userName);
+                User.getInstance().setPassword(passWord);
+                User.getInstance().setLoginState(false);
                 MapChatHttpService.getInstance().login(userName, passWord, new ResponseListener());
                 break;
             case R.id.de_left://注册
@@ -252,6 +251,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         @Override
         public void onStart() {
+            Log.i(TAG, "login start");
             showDialog();
         }
 

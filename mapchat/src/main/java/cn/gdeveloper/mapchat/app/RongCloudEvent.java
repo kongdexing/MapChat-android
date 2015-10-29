@@ -193,6 +193,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         if (messageContent instanceof TextMessage) {//文本消息
             TextMessage textMessage = (TextMessage) messageContent;
             Log.d(TAG, "onSent-TextMessage:" + textMessage.getContent());
+
+
         } else if (messageContent instanceof ImageMessage) {//图片消息
             ImageMessage imageMessage = (ImageMessage) messageContent;
             Log.d(TAG, "onSent-ImageMessage:" + imageMessage.getRemoteUri());
@@ -318,7 +320,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         return false;
     }
-
 
     /**
      * 连接状态监听器，以获取连接相关状态:ConnectionStatusListener 的回调方法，网络状态变化时执行。

@@ -32,7 +32,7 @@ public class LogoActivity extends Activity {
     private void initView() {
         String loginName = User.getInstance().getLoginName();
         String pwd = User.getInstance().getPassword();
-        if (!loginName.isEmpty() && !pwd.isEmpty()) {
+        if (!loginName.isEmpty() && !pwd.isEmpty() && User.getInstance().getLoginState()) {
             mDialog = new LoadingDialog(this);
             MapChatHttpService.getInstance().login(loginName, pwd, new ResponseListener());
         } else {

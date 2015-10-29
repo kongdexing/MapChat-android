@@ -54,7 +54,6 @@ public class SearchResultActivity extends BaseActionBarActivity {
                 MapChatHttpService.getInstance().search(searchKey, new ResponseListener());
             }
         });
-
     }
 
     private class ResponseListener implements IResponseListener {

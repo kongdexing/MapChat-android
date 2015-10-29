@@ -27,6 +27,7 @@ public class User implements Parcelable, Serializable {
      */
     private String message;
     private String token;
+    private boolean loginState = false;
 
     private static User mUser = new User();
 
@@ -71,6 +72,7 @@ public class User implements Parcelable, Serializable {
         loginName = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_LOGINNAME, "");
         password = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_PASSWORD, "");
         token = MapChatContext.getInstance().getSharedPreferences().getString(SharedPreferencesUtil.USER_TOKEN, "");
+        loginState = MapChatContext.getInstance().getSharedPreferences().getBoolean(SharedPreferencesUtil.LOGIN_STATE, false);
     }
 
     public String getUserId() {
@@ -93,6 +95,17 @@ public class User implements Parcelable, Serializable {
         SharedPreferences.Editor editor = MapChatContext.getInstance().getSharedPreferences().edit();
         editor.putString(SharedPreferencesUtil.USER_PASSWORD, password);
         editor.apply();
+    }
+
+    public void setLoginState(boolean state) {
+        this.loginState = state;
+        SharedPreferences.Editor editor = MapChatContext.getInstance().getSharedPreferences().edit();
+        editor.putBoolean(SharedPreferencesUtil.LOGIN_STATE, state);
+        editor.apply();
+    }
+
+    public boolean getLoginState() {
+        return loginState;
     }
 
     public String getLoginName() {

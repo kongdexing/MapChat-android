@@ -12,4 +12,5 @@ public interface IMapChatUserService {
 
     void addFriend(String fromId, String toId, String content, IResponseListener listener);
 
+    void deleteFriendRequest(String toId, IResponseListener listener);
 }

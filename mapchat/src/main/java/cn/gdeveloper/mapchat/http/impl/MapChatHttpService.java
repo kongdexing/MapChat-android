@@ -47,4 +47,9 @@ public class MapChatHttpService {
     public void addFriend(String fromId, String toId, String content, IResponseListener listener) {
         userService.addFriend(fromId, toId, content, listener);
     }
+
+    public void deleteFriendRequest(String toId, IResponseListener listener) {
+        userService.deleteFriendRequest(toId, listener);
+    }
+
 }
