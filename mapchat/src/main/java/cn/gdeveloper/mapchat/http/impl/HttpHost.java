@@ -13,6 +13,7 @@ public class HttpHost {
 
     public final static String SEARCH = "UserService/Search";
     public final static String AddFriend = "UserService/AddFriend";
+    public final static String DeleteFriendRequest = "UserService/DeleteFriendRequest";
 
     public final static String DEMO_TOKEN = "token";
     public final static String DEMO_JOIN_GROUP = "join_group";

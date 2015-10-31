@@ -207,6 +207,9 @@ public class MapChatUserServiceImpl extends BaseProxy implements IMapChatUserSer
 
     @Override
     public void deleteFriendRequest(String toId, IResponseListener listener) {
+        final StringBuilder url = new StringBuilder(256);
+        url.append(HttpHost.HOST + HttpHost.SEARCH);
+        url.append("/" + searchKey+"/"+ User.getInstance().getUserId());
 
     }
 }
